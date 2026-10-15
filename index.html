@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Y&K 婚礼工作台 · 婚期 2027-02-10</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#e0527d">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Y&K婚礼">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<style>
+:root{
+  --main:#e0527d; --main-d:#c23a63; --main-l:#fbe4ec;
+  --ink:#3d2b31; --sub:#9a7d88; --line:#f0dfe6;
+  --ok:#3fa668; --ok-l:#e7f5ec; --warn:#e05252; --warn-l:#fdeaea;
+  --card:#ffffff; --bg:#fdf3f6;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:var(--bg); color:var(--ink); font-size:16px; line-height:1.5;
+  padding-bottom:calc(24px + env(safe-area-inset-bottom));
+}
+.wrap{max-width:880px;margin:0 auto;padding:14px 14px 0}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,select{font-family:inherit;font-size:16px;color:var(--ink)}
+.hidden{display:none!important}
+
+/* header */
+header.top{background:linear-gradient(130deg,#f58fae 0%,var(--main) 55%,var(--main-d) 100%);color:#fff;padding:58px 0 74px;position:relative}
+.bg-tools{position:absolute;top:10px;right:12px;display:flex;gap:8px;align-items:center}
+.share-tools{position:absolute;top:10px;left:12px;display:flex;gap:8px;align-items:center}
+.sh-btn{min-height:38px;padding:0 14px;border-radius:999px;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.45);color:#fff;font-size:13px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:5px;backdrop-filter:blur(3px)}
+.sh-btn svg{width:16px;height:16px}
+.sh-btn:active{background:rgba(255,255,255,.36)}
+.sh-tip{font-size:12px;color:#9a7d88;margin-bottom:12px;line-height:1.6}
+.sh-native{width:100%;min-height:44px;margin-top:8px;border-radius:11px;background:var(--main-l);color:var(--main-d);font-size:14px;font-weight:700}
+.bg-btn{min-height:38px;padding:0 12px;border-radius:999px;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.4);color:#fff;font-size:12px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:4px;backdrop-filter:blur(3px)}
+.bg-btn svg{width:17px;height:17px}
+.bg-btn:active{background:rgba(255,255,255,.4)}
+.top-inner{max-width:880px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand .logo{width:46px;height:46px;flex:none;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.18);border-radius:14px}
+.brand .logo svg{width:27px;height:27px}
+.brand h1{font-size:20px;font-weight:700;letter-spacing:1px}
+.brand .sub{font-size:12.5px;opacity:.92;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cd-pill{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);border-radius:14px;padding:8px 16px;text-align:center;flex:none}
+.cd-pill .n{font-size:26px;font-weight:800;line-height:1.1}
+.cd-pill .l{font-size:11px;opacity:.9}
+
+/* main cards */
+main.wrap{margin-top:-56px;position:relative}
+.card{background:var(--card);border-radius:16px;padding:18px;margin:0 0 14px;box-shadow:0 3px 14px rgba(214,112,148,.10)}
+.card h2{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.card h2 svg{width:18px;height:18px;color:var(--main);flex:none}
+.card h2 .hint{font-size:12px;color:var(--sub);font-weight:400;margin-left:auto}
+
+/* tools */
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.tools button{flex:1;min-width:112px;min-height:44px;border-radius:12px;font-size:14px;font-weight:600;border:1px solid var(--line);background:#fff;color:var(--main-d);display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.tools button svg{width:16px;height:16px}
+.tools button.danger{color:var(--warn);border-color:#f5c8c8}
+.link-btn{background:none;border:none;color:var(--main-d);font-size:12px;font-weight:600;padding:6px 10px;cursor:pointer}
+.link-btn:active{color:var(--main)}
+.c-swatch{width:30px;height:30px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px var(--line)}
+.c-swatch.on{border-color:var(--main-d);box-shadow:0 0 0 2px var(--main-d)}
+.cloud-btn{border:1px solid var(--line);color:var(--sub);background:#fff}
+.cloud-btn svg{width:15px;height:15px}
+.cloud-btn.on{color:#2f9e63;border-color:#b6e0c5;background:#f3fbf6}
+.cloud-btn.syncing{color:#0a87c9;border-color:#aedcef;background:#f1faff}
+.cloud-btn.err{color:var(--warn);border-color:#f5c8c8;background:#fff5f5}
+.cloud-btn.off{color:#a98a55;border-color:#ecd9b0;background:#fffaf3}
+.backup-tip{background:#fff6e5;border:1px solid #f5dfae;color:#a0711e;border-radius:12px;padding:10px 14px;font-size:13px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.backup-tip svg{width:16px;height:16px;flex:none}
+
+/* today panel */
+.today-card{border:1px solid #f3c9d7}
+.today-empty{padding:18px;text-align:center;color:var(--sub);font-size:14px;background:#fffafc;border-radius:12px;border:1px dashed var(--line)}
+.td-item{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:12px;background:#fff;border:1px solid var(--line);margin-bottom:8px}
+.td-item:last-child{margin-bottom:0}
+.td-item.over{background:var(--warn-l);border-color:#f2c3c3}
+.td-item.soon{background:#fffbf2;border-color:#f2e2b8}
+.td-main{flex:1;min-width:0}
+.td-title{font-size:15px;font-weight:600;word-break:break-all}
+.td-sub{font-size:12px;color:var(--sub);margin-top:2px}
+.td-item.over .td-sub{color:var(--warn);font-weight:600}
+.td-btn{flex:none;min-height:38px;padding:0 16px;border-radius:10px;background:var(--main);color:#fff;font-size:14px;font-weight:600}
+.td-item.over .td-btn{background:var(--warn)}
+
+/* progress */
+.hero{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.ring-box{position:relative;width:132px;height:132px;flex:none}
+.ring-box svg{width:132px;height:132px;transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:#f3dfe7;stroke-width:11}
+.ring{fill:none;stroke:url(#ringGrad);stroke-width:11;stroke-linecap:round;transition:stroke-dashoffset .9s ease}
+.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-center .pct{font-size:26px;font-weight:800;color:var(--main-d)}
+.ring-center .lab{font-size:12px;color:var(--sub)}
+.cd-box{flex:1;min-width:190px}
+.cd-box .big{font-size:44px;font-weight:800;color:var(--main-d);line-height:1.05}
+.cd-box .big small{font-size:16px;font-weight:600;color:var(--sub);margin-left:4px}
+.cd-box .date{font-size:13px;color:var(--sub);margin-top:2px}
+.cd-box .stats{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.stat-chip{background:var(--main-l);color:var(--main-d);font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;cursor:pointer;border:1.5px solid transparent;transition:transform .15s, box-shadow .15s}
+.stat-chip:active{transform:scale(.94)}
+.stat-chip.g{background:var(--ok-l);color:var(--ok)}
+.stat-chip.on{border-color:currentColor;box-shadow:0 2px 8px rgba(214,112,148,.25)}
+.stat-chip.warn{background:#fdeaea;color:var(--warn)}
+.stat-chip.b{background:#eef2f8;color:#7d93ad}
+.cat-progress{margin-top:16px;border-top:1px dashed var(--line);padding-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px}
+.cp-row .cp-head{display:flex;justify-content:space-between;font-size:12px;color:var(--sub);margin-bottom:4px}
+.cp-head .cp-num{font-weight:600;color:var(--ink)}
+.cp-bar{height:8px;background:#f4e4ea;border-radius:99px;overflow:hidden}
+.cp-fill{height:100%;border-radius:99px;transition:width .6s ease}
+.money-card{background:linear-gradient(130deg,#fff8ee,#ffefd9);border:1px solid #f0dcb4;border-radius:14px;padding:14px 16px;margin-bottom:14px}
+.mc-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.mc-label{font-size:13px;color:#8a6d3f;font-weight:600}
+.mc-set{font-size:12px;font-weight:700;color:#c0851e;background:#fff;border:1px solid #ecd9b0;border-radius:999px;padding:4px 12px;min-height:30px}
+.mc-total{font-size:34px;font-weight:800;color:#b07a12;line-height:1.2;margin-top:4px;transition:color .3s}
+.mc-total.over{color:#d94b4b}
+.mc-sub{font-size:12px;color:#a98a55;margin-top:2px;word-break:break-all}
+
+/* add form */
+.add-form{display:grid;grid-template-columns:1fr 130px 130px 84px 110px auto;gap:8px;margin-bottom:12px}
+.add-form .note{grid-column:1 / -1}
+.inp{min-height:44px;border:1px solid var(--line);border-radius:10px;padding:0 12px;background:#fff;outline:none;font-size:16px;width:100%}
+.inp:focus{border-color:var(--main)}
+.btn-add{min-height:44px;border-radius:10px;background:var(--main);color:#fff;font-size:15px;font-weight:700;padding:0 18px;display:inline-flex;align-items:center;gap:5px;box-shadow:0 3px 8px rgba(224,82,125,.28)}
+.btn-add svg{width:16px;height:16px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.chip{min-height:36px;padding:0 14px;border-radius:999px;background:#fdf2f6;border:1px solid var(--line);color:var(--sub);font-size:13px;font-weight:600}
+.chip.on{background:var(--main);border-color:var(--main);color:#fff}
+.chip .cnt{opacity:.75;margin-left:3px;font-weight:400}
+
+/* task list */
+.task{display:flex;align-items:flex-start;gap:10px;padding:11px 8px;border-bottom:1px solid #f7e9ee}
+.task:last-child{border-bottom:none}
+.task.done .t-title{color:#b9a4ad;text-decoration:line-through}
+.check{width:27px;height:27px;flex:none;margin-top:2px;border-radius:50%;border:2px solid #d8b6c4;display:flex;align-items:center;justify-content:center;color:#fff;transition:all .2s}
+.check svg{width:15px;height:15px;opacity:0;transform:scale(.4);transition:all .2s}
+.task.done .check{background:linear-gradient(135deg,#4fc383,#2f9e63);border-color:#2f9e63}
+.task.done .check svg{opacity:1;transform:scale(1)}
+.check:active{transform:scale(.85)}
+.t-main{flex:1;min-width:0}
+.t-title{font-size:15px;font-weight:600;word-break:break-all}
+.t-meta{display:flex;gap:6px;align-items:center;margin-top:5px;flex-wrap:wrap}
+.tag{font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px}
+.prio{font-size:11px;font-weight:800;padding:2px 6px;border-radius:6px}
+.prio.p0{background:var(--warn-l);color:var(--warn)}
+.prio.p1{background:#fff3e0;color:#e8890c}
+.prio.p2{background:#eef2f8;color:#7d93ad}
+.dline{font-size:12px;color:var(--sub)}
+.dline.over{color:var(--warn);font-weight:700}
+.dline.soon{color:#d89a2b;font-weight:600}
+.del{width:34px;height:34px;flex:none;border-radius:9px;display:flex;align-items:center;justify-content:center;color:#cfb0bc}
+.del svg{width:17px;height:17px}
+.del:active{background:#fdeaea;color:var(--warn)}
+.edit{width:34px;height:34px;flex:none;border-radius:9px;display:flex;align-items:center;justify-content:center;color:#cfb0bc}
+.edit svg{width:16px;height:16px}
+.edit:active{background:var(--main-l);color:var(--main-d)}
+.t-line{display:flex;align-items:flex-start;gap:8px;justify-content:space-between}
+.t-title{flex:1;min-width:0}
+.amt{font-size:12.5px;font-weight:800;padding:3px 9px;border-radius:8px;background:#fff3e0;color:#e8890c;flex:none;white-space:nowrap;cursor:pointer;line-height:1.4}
+.amt:active{background:#ffe2b5}
+.amt-add{font-size:11px;font-weight:600;padding:3px 8px;border-radius:8px;background:#fff;border:1px dashed #d8b6c4;color:#c89ba9;flex:none;cursor:pointer;line-height:1.4}
+.amt-add:active{background:#fdf2f6}
+.t-note{font-size:12px;color:#8a6d5a;margin-top:6px;background:#fffaf3;border:1px dashed #f0dfc6;border-radius:8px;padding:5px 9px;word-break:break-all;line-height:1.6}
+.task-empty{padding:26px;text-align:center;color:var(--sub);font-size:14px;border:1px dashed var(--line);border-radius:12px;background:#fffafc}
+
+/* timeline */
+.timeline{position:relative;padding-left:30px}
+.timeline::before{content:'';position:absolute;left:9px;top:8px;bottom:8px;width:2px;background:linear-gradient(180deg,#f3c9d7,#e8b3c6)}
+.tl-item{position:relative;padding:0 0 20px}
+.tl-item:last-child{padding-bottom:0}
+.tl-item::before{content:'';position:absolute;left:-26px;top:6px;width:13px;height:13px;border-radius:50%;background:#fff;border:3px solid #d8b6c4;box-sizing:border-box}
+.tl-item.done::before{border-color:var(--ok);background:var(--ok)}
+.tl-item.current::before{border-color:var(--main);background:var(--main);box-shadow:0 0 0 4px var(--main-l)}
+.tl-body{background:#fff9fb;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.tl-item.current .tl-body{border-color:#f3a9c2;background:#fff5f9}
+.tl-item.done .tl-body{opacity:.72}
+.tl-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tl-name{font-size:15px;font-weight:700}
+.tl-st{font-size:11px;font-weight:700;padding:2px 9px;border-radius:999px}
+.tl-st.done{background:var(--ok-l);color:var(--ok)}
+.tl-st.current{background:var(--main);color:#fff}
+.tl-st.pending{background:#f0e7eb;color:var(--sub)}
+.tl-time{font-size:12px;color:var(--main-d);font-weight:600;margin-top:3px}
+.tl-desc{font-size:13px;color:var(--sub);margin-top:5px}
+
+footer.foot{text-align:center;color:#b9a0ab;font-size:12px;padding:8px 16px 30px}
+
+/* toast */
+#toast{position:fixed;left:50%;bottom:calc(70px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(16px);background:rgba(61,43,49,.92);color:#fff;font-size:14px;padding:10px 20px;border-radius:999px;opacity:0;pointer-events:none;transition:all .3s;z-index:99;max-width:86vw;text-align:center}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* modal */
+.mask{position:fixed;inset:0;background:rgba(40,20,28,.45);display:flex;align-items:center;justify-content:center;z-index:100;padding:24px}
+.modal{background:#fff;border-radius:16px;padding:22px;width:100%;max-width:340px;text-align:center}
+.modal p{font-size:15px;color:var(--ink);line-height:1.6;margin-bottom:18px;white-space:pre-line;word-break:break-all}
+.modal-btns{display:flex;gap:10px}
+.modal-btns button{flex:1;min-height:44px;border-radius:11px;font-size:15px;font-weight:600}
+.modal h3{font-size:16px;font-weight:700;margin-bottom:12px;text-align:left;color:var(--ink)}
+.modal .inp{margin-bottom:10px;width:100%}
+.m-ghost{background:#f3edf0;color:#6d5560}
+.m-ok{background:var(--main);color:#fff}
+.m-ok.danger{background:var(--warn)}
+
+@media (max-width:768px){
+  .brand h1{font-size:17px}
+  .cd-pill .n{font-size:22px}
+  .cd-pill{padding:7px 12px}
+  .add-form{grid-template-columns:1fr 1fr}
+  .add-form .title,.add-form .note{grid-column:1 / -1}
+  .btn-add{grid-column:1 / -1;justify-content:center}
+  .cat-progress{grid-template-columns:1fr}
+  .hero{gap:14px;justify-content:center}
+  .cd-box{min-width:100%;text-align:center}
+  .cd-box .stats{justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">
+      <div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="15.5" r="5.3"/><path d="M12 10.6V8M12 8l-2.6-3.2M12 8l2.6-3.2"/><circle cx="12" cy="4.2" r="1.1" fill="#fff" stroke="none"/></svg></div>
+      <div>
+        <h1>Y&amp;K 婚礼工作台</h1>
+        <div class="sub">婚期：2027年2月10日 · 认真筹备每一件小事</div>
+      </div>
+    </div>
+    <div class="cd-pill"><div class="n" id="cdNum">—</div><div class="l">天后婚礼</div></div>
+  </div>
+  <div class="bg-tools">
+    <button class="bg-btn" id="btnBg" title="更换背景图"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7a2 2 0 0 1 2-2h2l1.5-2h5L16 5h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3.2"/></svg></button>
+    <button class="bg-btn hidden" id="bgReset" title="恢复默认背景">默认</button>
+    <input type="file" id="bgInput" accept="image/*" hidden>
+  </div>
+  <div class="share-tools">
+    <button class="sh-btn" id="btnShare" title="分享给 TA">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5.5" r="2.8"/><circle cx="6" cy="12" r="2.8"/><circle cx="18" cy="18.5" r="2.8"/><path d="M8.5 10.6l7-3.7M8.5 13.4l7 3.7"/></svg>
+      分享
+    </button>
+  </div>
+</header>
+
+<div class="mask hidden" id="shareMask">
+  <div class="modal">
+    <h3>分享工作台</h3>
+    <p class="sh-tip">把链接发给对方，TA 打开就能看到同样的清单，可一起勾选、记费用。删除事项需要你的管理密码。</p>
+    <input class="inp" id="shareUrl" readonly>
+    <div class="modal-btns">
+      <button class="m-ghost" id="shareClose">关闭</button>
+      <button class="m-ok" id="shareCopy">复制链接</button>
+    </div>
+    <button class="sh-native hidden" id="shareNative">调用系统分享</button>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <section class="card today-card">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="16" rx="2.5"/><path d="M8 3v4m8-4v4M3.5 10h17"/></svg>
+      今天要处理
+      <span class="hint">逾期 / 今日 / 7 天内</span>
+    </h2>
+    <div id="todayList"></div>
+  </section>
+
+  <div class="tools">
+    <button id="btnExport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v10m0 0l-4-4m4 4l4-4M4 19h16"/></svg>导出 JSON 备份</button>
+    <button id="btnImport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14V4m0 0L8 8m4-4l4 4M4 19h16"/></svg>导入恢复</button>
+    <button class="danger" id="btnClear"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4.5A1.5 1.5 0 0 1 9.5 3h5A1.5 1.5 0 0 1 16 4.5V6m2.5 0l-.8 13.1a2 2 0 0 1-2 1.9H8.3a2 2 0 0 1-2-1.9L5.5 6"/></svg>清空数据</button>
+    <button id="cloudBtn" class="cloud-btn off" title="云端同步设置"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a5 5 0 1 1 1-9.9 6 6 0 0 1 11.5 2.1A4 4 0 0 1 18 18"/><path d="M12 12v6m0 0l-3-3m3 3l3-3"/></svg><span id="cloudLabel">未连接</span></button>
+    <input type="file" id="fileInput" accept="application/json,.json" hidden>
+  </div>
+  <div class="backup-tip hidden" id="backupTip">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/></svg>
+    数据已积累 <b id="backupNum">0</b> 条，建议尽快导出备份
+  </div>
+
+  <section class="card">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>
+      备婚进度
+    </h2>
+    <div class="hero">
+      <div class="ring-box">
+        <svg viewBox="0 0 132 132">
+          <defs>
+            <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#f58fae"/><stop offset="100%" stop-color="#c23a63"/>
+            </linearGradient>
+          </defs>
+          <circle class="ring-bg" cx="66" cy="66" r="56"/>
+          <circle class="ring" id="ring" cx="66" cy="66" r="56" stroke-dasharray="351.86" stroke-dashoffset="351.86"/>
+        </svg>
+        <div class="ring-center"><div class="pct" id="ringPct">0%</div><div class="lab">筹备进度</div></div>
+      </div>
+      <div class="cd-box">
+        <div class="big" id="cdBig">—<small>天</small></div>
+        <div class="date" id="cdDate">距离 2027-02-10</div>
+        <div class="stats">
+          <span class="stat-chip g" id="stDone" data-st="done" title="点击查看已完成">已完成 0</span>
+          <span class="stat-chip b" id="stTodo" data-st="todo" title="点击查看待办">待办 0</span>
+          <span class="stat-chip warn" id="stOver" data-st="over" title="点击查看逾期">逾期 0</span>
+        </div>
+      </div>
+    </div>
+    <div class="money-card">
+      <div class="mc-head">
+        <span class="mc-label">已支出合计 · 按事项自动汇总</span>
+        <button class="mc-set" id="btnBudget">设预算</button>
+      </div>
+      <div class="mc-total" id="budgetBig">¥0</div>
+      <div class="mc-sub" id="budgetSub">共 0 笔已记录</div>
+    </div>
+    <div class="cat-progress" id="catProgress"></div>
+  </section>
+
+  <section class="card" id="listCard">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11M4.5 6l1 1 2-2M4.5 12l1 1 2-2M4.5 18l1 1 2-2"/></svg>
+      备婚清单
+      <span class="hint" id="taskCount"></span>
+    </h2>
+    <form class="add-form" id="addForm">
+      <input class="inp title" id="inpTitle" placeholder="添加备婚事项，如：预订婚庆公司" maxlength="50">
+      <select class="inp" id="inpCat"></select>
+      <input class="inp" type="date" id="inpDate" title="截止日期（可选）">
+      <select class="inp" id="inpPrio">
+        <option value="P0">P0 紧急</option>
+        <option value="P1" selected>P1 重要</option>
+        <option value="P2">P2 一般</option>
+      </select>
+      <input class="inp" id="inpAmount" type="number" min="0" step="1" inputmode="decimal" placeholder="金额(元)">
+      <button class="btn-add" type="submit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>添加</button>
+      <input class="inp note" id="inpNote" placeholder="备注，如：酒店定金已交 3000（也可添加后点击铅笔补记）" maxlength="100">
+    </form>
+    <div style="margin-top:8px;margin-bottom:12px;text-align:right">
+      <button type="button" class="link-btn" id="btnRename">✏️ 重命名分类</button>
+    </div>
+    <div class="filters" id="statusFilters"></div>
+    <div class="filters" id="filters"></div>
+    <div id="taskList"></div>
+  </section>
+
+  <section class="card">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 6h7M3 12h12M3 18h7"/><circle cx="15.5" cy="6" r="1.9"/><circle cx="19" cy="12" r="1.9"/><circle cx="15.5" cy="18" r="1.9"/></svg>
+      备婚流程时间线
+    </h2>
+    <div class="timeline" id="timeline"></div>
+  </section>
+
+  <footer class="foot">数据保存在本机浏览器 localStorage · 换设备用「导出 / 导入」迁移 · 建议每周备份一次</footer>
+</main>
+
+<div id="toast"></div>
+<div class="mask hidden" id="mask">
+  <div class="modal">
+    <p id="modalText"></p>
+    <div class="modal-btns">
+      <button class="m-ghost" id="mCancel">取消</button>
+      <button class="m-ok" id="mOk">确认</button>
+    </div>
+  </div>
+</div>
+
+<div class="mask hidden" id="editMask">
+  <div class="modal">
+    <h3>编辑事项</h3>
+    <input class="inp" id="editTitle" placeholder="事项名称" maxlength="50">
+    <select class="inp" id="editCat"></select>
+    <div style="display:flex;gap:8px">
+      <input class="inp" type="date" id="editDeadline" style="flex:1" title="截止日期">
+      <input class="inp" type="time" id="editTime" style="flex:1" title="具体时间（可选）">
+    </div>
+    <input class="inp" id="editNote" placeholder="备注，如：酒店定金已交 3000，尾款婚礼前付" maxlength="100">
+    <input class="inp" id="editAmount" type="number" min="0" step="1" inputmode="decimal" placeholder="费用金额（元），已付部分，如 3000">
+    <div class="modal-btns">
+      <button class="m-ghost" id="editCancel">取消</button>
+      <button class="m-ok" id="editSave">保存</button>
+    </div>
+  </div>
+</div>
+
+<div class="mask hidden" id="budgetMask">
+  <div class="modal">
+    <h3>设置婚礼总预算</h3>
+    <input class="inp" id="budgetInput" type="number" min="0" step="100" inputmode="decimal" placeholder="总预算金额（元），如 200000">
+    <div class="modal-btns">
+      <button class="m-ghost" id="budgetClear">清除</button>
+      <button class="m-ghost" id="budgetCancel">取消</button>
+      <button class="m-ok" id="budgetSave">保存</button>
+    </div>
+  </div>
+</div>
+
+<div class="mask hidden" id="cloudMask">
+  <div class="modal">
+    <h3>云同步设置</h3>
+    <p style="font-size:12px;color:#9a7d88;margin-bottom:10px;line-height:1.6">填入 Project URL + publishable key 即可连接你的 Supabase 数据库。首次连接会被要求设置「管理密码」用于保护删除/清空等危险操作（主权限在你）。</p>
+    <input class="inp" id="cloudUrl" placeholder="Project URL（如 https://xxxxx.supabase.co）">
+    <input class="inp" id="cloudKey" placeholder="publishable key（sb_publishable_...）">
+    <input class="inp" id="adminPwd" type="password" placeholder="管理密码（≥6 位，仅你能输入）" maxlength="20">
+    <input class="inp hidden" id="adminPwd2" type="password" placeholder="再输一次确认" maxlength="20">
+    <div class="modal-btns" style="flex-wrap:wrap">
+      <button class="m-ghost" id="cloudTestBtn">测试连接</button>
+      <button class="m-ok" id="cloudSaveBtn">保存并连接</button>
+      <button class="m-ghost hidden" id="cloudDisconnectBtn">断开云端</button>
+      <button class="m-ghost" id="cloudCancel">关闭</button>
+    </div>
+    <p id="cloudMsg" style="margin-top:10px;font-size:12px;color:#9a7d88;line-height:1.5;min-height:14px"></p>
+  </div>
+</div>
+
+<div class="mask hidden" id="adminMask">
+  <div class="modal">
+    <h3>需要管理密码</h3>
+    <p id="adminMsg" style="font-size:13px;color:#9a7d88;margin-bottom:10px;line-height:1.5">该操作仅主账号（你）可执行</p>
+    <input class="inp" id="adminInput" type="password" placeholder="输入管理密码" maxlength="20" inputmode="numeric">
+    <div class="modal-btns">
+      <button class="m-ghost" id="adminCancel">取消</button>
+      <button class="m-ok" id="adminOk">验证</button>
+    </div>
+  </div>
+</div>
+
+<div class="mask hidden" id="renameMask">
+  <div class="modal">
+    <h3>分类管理</h3>
+    <p style="font-size:12px;color:#9a7d88;margin-bottom:12px;line-height:1.6">· 点一个分类可改名/删除<br>· 不选分类时直接输入名称 = 新增分类</p>
+    <div id="renameChips" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"></div>
+    <div id="colorRow" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px"></div>
+    <input class="inp" id="renameInput" placeholder="分类名称（≤8 字）" maxlength="8">
+    <div class="modal-btns" style="flex-wrap:wrap">
+      <button class="m-ghost" id="renameAdd">＋ 新增分类</button>
+      <button class="m-ghost" id="renameSave">保存改名</button>
+      <button class="m-ghost" id="renameDelete">删除分类</button>
+      <button class="m-ok" id="renameClose">完成</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+var LS = 'wb_wedding_';
+var WED = '2027-02-10';
+var CATS = [
+  {id:'plan',  name:'规划筹备',     color:'#8d6e63'},
+  {id:'comms', name:'双方沟通筹备', color:'#c9971c'},
+  {id:'hotel', name:'酒店婚宴',     color:'#e0527d'},
+  {id:'photo', name:'婚纱摄影',     color:'#f4a261'},
+  {id:'dress', name:'礼服戒指',     color:'#9b5de5'},
+  {id:'guest', name:'宾客请柬',     color:'#00a8cc'},
+  {id:'gift',  name:'采购筹备',     color:'#6a994e'}
+];
+var STAGES = [
+  {name:'立即启动',   time:'2026-08（本月）',      end:'2026-08-31', desc:'敲定总预算；立即预订酒店婚宴、婚庆公司、婚纱摄影档期——三大件是本月最紧急的事'},
+  {name:'影像礼服',   time:'2026-09',              end:'2026-09-30', desc:'拍摄婚纱照、试纱选定礼服、购买婚戒；敲定司仪/化妆/摄影/摄像（四大金刚）'},
+  {name:'名单请柬',   time:'2026-10',              end:'2026-10-31', desc:'确认宾客名单、设计请柬、新娘试妆、预订婚车；与双方家庭敲定婚俗红包方案'},
+  {name:'冲刺采购',   time:'2026-11',              end:'2026-11-30', desc:'发出请柬、确认酒席桌数菜单、采购喜糖伴手礼、布置婚房'},
+  {name:'查漏补缺',   time:'2026-12',              end:'2026-12-31', desc:'复核所有合同档期与报价、安排蜜月行程、准备应急包、预约婚礼彩排'},
+  {name:'婚礼月',     time:'2027-01 ~ 2027-02-10', end:'2027-02-10', desc:'婚礼彩排、备好红包礼金、护肤休息调整状态，放松心态迎接大日子'}
+];
+/* 预置数据：来自 2026-10-15 备份，全新设备首次打开自动载入 */
+var SEED_VER = '2026-10-15';
+var SEED_BUDGET = 0;
+var SEED = [
+  {id:"s0", title:"提前一月拉各种沟通群", cat:"plan", deadline:"2027-01-10", priority:"P0", done:false, note:"全部", amount:0, dueTime:""},
+  {id:"s1", title:"与双方父母沟通彩礼/嫁妆与红包习俗", cat:"comms", deadline:"2026-09-30", priority:"P0", done:false, note:"", amount:0, dueTime:""},
+  {id:"s2", title:"梳理本地婚俗清单（敬茶、改口红包、压床等）", cat:"comms", deadline:"2027-01-10", priority:"P1", done:false, note:"", amount:0, dueTime:""},
+  {id:"s3", title:"预订婚礼酒店（半山宴会中心一楼）", cat:"hotel", deadline:"2026-07-31", priority:"P0", done:true, note:"27.2.10、合同未签、定金已交2000，酒菜待定", amount:2000, dueTime:""},
+  {id:"s4", title:"拍摄婚纱照（11.27待定）", cat:"photo", deadline:"2026-11-27", priority:"P1", done:false, note:"风格待选、具体拍摄事宜待沟通、需要提前试纱", amount:0, dueTime:""},
+  {id:"s5", title:"江西结婚礼服预定（薇町）", cat:"dress", deadline:"2026-08-09", priority:"P1", done:true, note:"定金已交2000，含包含免租男方席1套主纱、1套女秀禾、1套敬酒服、1套男士西装、1套男秀禾、2套伴娘服、2套伴郎服。", amount:3000, dueTime:""},
+  {id:"s6", title:"购买对戒", cat:"dress", deadline:"2026-12-15", priority:"P1", done:false, note:"已去实地看过，约1w，没有好看款式就不买了", amount:0, dueTime:""},
+  {id:"tmsvmy60re2pez", title:"定婚纱照（薇町摄影）", cat:"photo", deadline:"2026-08-09", priority:"P0", done:true, note:"定金已交1000，四服四造、主纱双造型、内外任选，全款4199", amount:4199, dueTime:""},
+  {id:"tmsvn8g5j67xeg", title:"江西结婚礼服试纱（薇町年前快放假）", cat:"dress", deadline:"", priority:"P1", done:false, note:"主纱可选小拖尾、重工款", amount:0, dueTime:""},
+  {id:"tmsvn9i94kdmoj", title:"江西爸妈礼服预定（本地另租）", cat:"dress", deadline:"", priority:"P1", done:false, note:"需要定妈妈、婆婆、爸爸礼服，过年回去定", amount:0, dueTime:""},
+  {id:"tmsvnauok9rok5", title:"婚鞋衬衫购买（薇町）", cat:"dress", deadline:"", priority:"P1", done:true, note:"待选款，送一双男士皮鞋、女生婚鞋、男生衬衫2件，无需再定", amount:0, dueTime:""},
+  {id:"tmsvnbn9bxgwf0", title:"温州礼服预定（薇町已包含）", cat:"dress", deadline:"", priority:"P1", done:true, note:"免租女方席1套敬酒服、1套男士西服", amount:0, dueTime:""},
+  {id:"tmsvnccg01ikq4", title:"温州爸妈礼服", cat:"dress", deadline:"", priority:"P1", done:false, note:"待本地另租或买", amount:0, dueTime:""},
+  {id:"tmsvnge1iz2he3", title:"温州酒席场地预定（待定、日子待选）", cat:"hotel", deadline:"", priority:"P1", done:false, note:"", amount:0, dueTime:""},
+  {id:"tmsvnj6ty5vds5", title:"江西婚礼跟妆（小Uu）", cat:"photo", deadline:"", priority:"P0", done:true, note:"定金500，全款1880+路费，妆容：新娘跟妆➕1位妈妈妆+1新郎妆 （另婆婆妆80另付）", amount:500, dueTime:""},
+  {id:"tmsvnlzzjhmc54", title:"江西试妆（4个妆面试妆）", cat:"photo", deadline:"", priority:"P1", done:false, note:"待试妆", amount:0, dueTime:""},
+  {id:"tmsvnn0wly52rw", title:"江西婚礼跟拍摄影师（慧姐）", cat:"photo", deadline:"", priority:"P1", done:true, note:"元总亲姐，无需费用，到时给个红包", amount:0, dueTime:""},
+  {id:"tmsvnqnou0eglj", title:"江西婚礼跟拍摄影师（西西）", cat:"photo", deadline:"", priority:"P1", done:true, note:"婚前1个月拉群沟通、总价1366，定金已交600，无需包路费住宿费，精修共30张，提前出9张预告", amount:1366, dueTime:""},
+  {id:"tmsvnrts1ofx9o", title:"江西婚礼跟拍摄像师（十七）", cat:"photo", deadline:"", priority:"P0", done:false, note:"1880全款，已交定金500、路费、住宿另算、提前半个月沟通", amount:500, dueTime:""},
+  {id:"tmsvnvy78znb71", title:"请柬（提前一个月制作、送达）", cat:"guest", deadline:"", priority:"P1", done:false, note:"待定", amount:0, dueTime:""},
+  {id:"tmsvnyim16pq8o", title:"女方嫁妆筹备（喜被已买）", cat:"gift", deadline:"", priority:"P1", done:true, note:"红色四件套、凉席、枕芯一对、空调被、冬被6斤一条", amount:2000, dueTime:""},
+  {id:"tmsvnzjfp07t5x", title:"嫁妆筹备（喜碗108件）", cat:"gift", deadline:"", priority:"P1", done:false, note:"已选好款、待双11采购", amount:0, dueTime:""},
+  {id:"tmsvo0c2yuq6ll", title:"喜宴白酒采购", cat:"gift", deadline:"", priority:"P1", done:false, note:"待双11购买、数量待定", amount:0, dueTime:""},
+  {id:"tmsvo0wlos9aqi", title:"江西喜糖采购", cat:"gift", deadline:"", priority:"P1", done:false, note:"待采", amount:0, dueTime:""},
+  {id:"tmsvo1j4w7royw", title:"温州喜糖采购（待采）", cat:"gift", deadline:"", priority:"P1", done:false, note:"大糖、小糖待采", amount:0, dueTime:""},
+  {id:"tmsvo20tgmp8dz", title:"双方喜烟采购", cat:"gift", deadline:"", priority:"P1", done:false, note:"待采、品牌待定", amount:0, dueTime:""},
+  {id:"tmsvo2tasogb08", title:"江西婚房装饰采购", cat:"gift", deadline:"", priority:"P1", done:false, note:"待采", amount:0, dueTime:""},
+  {id:"tmsvoa9gkmzsaq", title:"温州礼服试纱（薇町）", cat:"photo", deadline:"", priority:"P1", done:false, note:"日子敲定后提前一月试", amount:0, dueTime:""},
+  {id:"tmv9062xnn61pb", title:"婚纱照礼服试纱", cat:"photo", deadline:"2026-11-22", priority:"P1", done:false, note:"已预约11.22号下午1点到店试纱", amount:0, dueTime:"13:00"}
+];
+
+var state = {tasks: [], favs: [], budget: 0, catNames: {}, customCats: [], hiddenCats: {}, cloud: {url:'', key:'', enabled:false, lastSync:0, status:'offline'}, adminHash: ''};
+var filter = 'all';
+var statusFilter = 'all';
+var modalOk = null;
+var toastTimer = null;
+
+function $id(x){ return document.getElementById(x); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+function todayStr(){ var d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function parseYMD(s){ var p=s.split('-'); return new Date(+p[0], +p[1]-1, +p[2]); }
+function diffDays(a,b){ return Math.round((parseYMD(b)-parseYMD(a))/86400000); }
+function daysToWed(){ return diffDays(todayStr(), WED); }
+function fmtShort(s){ if(!s) return '日期待定'; var p=s.split('-'); return p[1]+'-'+p[2]; }
+function fmtMoney(n){ return Number(n||0).toLocaleString('zh-CN'); }
+function catOf(id){
+  var ov = state.catNames[id];
+  for(var i=0;i<CATS.length;i++) if(CATS[i].id===id) return {id: CATS[i].id, name: ov||CATS[i].name, color: CATS[i].color};
+  for(var j=0;j<state.customCats.length;j++) if(state.customCats[j].id===id) return {id: state.customCats[j].id, name: ov||state.customCats[j].name, color: state.customCats[j].color};
+  if(id === 'other') return {id:'other', name: ov||'其他', color:'#999999'};
+  return {id:id, name: ov||'其他', color:'#999999'};
+}
+function getCats(){
+  var list = [];
+  for(var i=0;i<CATS.length;i++){ if(!state.hiddenCats[CATS[i].id]) list.push({id:CATS[i].id, name: state.catNames[CATS[i].id]||CATS[i].name, color:CATS[i].color}); }
+  for(var j=0;j<state.customCats.length;j++){ var c=state.customCats[j]; list.push({id:c.id, name: state.catNames[c.id]||c.name, color:c.color}); }
+  list.push({id:'other', name: state.catNames['other']||'其他', color:'#999999'});
+  return list;
+}
+function uid(){ return 't'+Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+
+/* ---- 数据 ---- */
+function load(){
+  try{
+    var raw = localStorage.getItem(LS+'data');
+    if(raw){
+      var d = JSON.parse(raw);
+      if(d && Array.isArray(d.tasks)){ state.tasks = d.tasks; state.favs = Array.isArray(d.favs) ? d.favs : []; state.budget = Number(d.budget) > 0 ? Math.round(Number(d.budget)) : 0; return; }
+    }
+  }catch(e){}
+  if(!localStorage.getItem(LS+'seedv')){
+    state.tasks = SEED.map(function(s){
+      return {id: s.id || uid(), title: s.title, cat: s.cat || 'plan', deadline: s.deadline || '',
+              priority: s.priority || 'P1', done: !!s.done, note: s.note || '',
+              amount: Number(s.amount) > 0 ? Math.round(Number(s.amount)) : 0, dueTime: s.dueTime || ''};
+    });
+    state.budget = Number(SEED_BUDGET) > 0 ? Math.round(Number(SEED_BUDGET)) : 0;
+    localStorage.setItem(LS+'seedv', SEED_VER);
+  }else{
+    state.tasks = [];
+  }
+  state.favs = [];
+  save();
+}
+function save(){
+  try{ localStorage.setItem(LS+'data', JSON.stringify({version:3, wedDate:WED, tasks:state.tasks, favs:state.favs, budget:state.budget})); }
+  catch(e){ toast('保存失败：本地存储空间可能已满'); }
+  scheduleSync();
+}
+function toast(msg){
+  var el = $id('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ el.classList.remove('show'); }, 2200);
+}
+
+/* ---- 渲染 ---- */
+function renderAll(){ renderHeader(); renderToday(); renderProgress(); renderStatusFilters(); renderFilters(); renderTasks(); renderTimeline(); renderBackupTip(); renderCloudStatus(); }
+
+function renderHeader(){
+  var n = daysToWed();
+  $id('cdNum').textContent = n >= 0 ? n : 0;
+  $id('cdBig').textContent = n >= 0 ? n : '礼成';
+  $id('cdDate').textContent = n >= 0 ? '距离 2027-02-10' : '婚礼已于 2027-02-10 举办';
+}
+
+function renderToday(){
+  var t = todayStr();
+  var list = state.tasks.filter(function(x){ return !x.done; }).map(function(x){
+    var over = !!(x.deadline && x.deadline < t);
+    var due  = x.deadline === t;
+    var soon = !!(x.deadline && !over && !due && diffDays(t, x.deadline) <= 7);
+    return {id:x.id, title:x.title, cat:catOf(x.cat), deadline:x.deadline, dueTime:x.dueTime || '', over:over, due:due, soon:soon};
+  }).filter(function(x){ return x.over || x.due || x.soon; }).sort(function(a,b){
+    if(a.over!==b.over) return a.over ? -1 : 1;
+    var ad=a.deadline||'9999', bd=b.deadline||'9999';
+    return ad<bd ? -1 : (ad>bd ? 1 : 0);
+  });
+  var el = $id('todayList');
+  if(!list.length){
+    el.innerHTML = '<div class="today-empty">今日无待办事项，备婚进展顺利，继续保持！</div>';
+    return;
+  }
+  var html = '';
+  for(var i=0;i<list.length;i++){
+    var x = list[i];
+    var cls = x.over ? 'over' : (x.due ? '' : 'soon');
+    var sub;
+    if(x.over)      sub = '截止 ' + fmtShort(x.deadline) + (x.dueTime ? ' ' + x.dueTime : '') + ' · 已逾期 ' + diffDays(x.deadline, t) + ' 天';
+    else if(x.due)  sub = '今天 ' + fmtShort(x.deadline) + (x.dueTime ? ' ' + x.dueTime : '') + ' 截止 · 抓紧处理';
+    else            sub = '截止 ' + fmtShort(x.deadline) + (x.dueTime ? ' ' + x.dueTime : '') + ' · 还剩 ' + diffDays(t, x.deadline) + ' 天';
+    html += '<div class="td-item ' + cls + '">'
+      + '<div class="td-main"><div class="td-title">' + esc(x.title) + '</div>'
+      + '<div class="td-sub">' + x.cat.name + ' · ' + sub + '</div></div>'
+      + '<button class="td-btn" data-act="toggle" data-id="' + x.id + '">完成</button></div>';
+  }
+  el.innerHTML = html;
+}
+
+function renderProgress(){
+  var total = state.tasks.length;
+  var done = state.tasks.filter(function(x){ return x.done; }).length;
+  var pct = total ? Math.round(done/total*100) : 0;
+  var C = 351.86, off = C * (1 - pct/100);
+  var ring = $id('ring');
+  ring.style.transition = 'none';
+  ring.style.strokeDashoffset = C;
+  void ring.getBoundingClientRect();
+  ring.style.transition = 'stroke-dashoffset .9s ease';
+  ring.style.strokeDashoffset = off;
+  $id('ringPct').textContent = pct + '%';
+  $id('stDone').textContent = '已完成 ' + done;
+  $id('stTodo').textContent = '待办 ' + (total - done);
+  var overN = state.tasks.filter(function(x){ return !x.done && x.deadline && x.deadline < todayStr(); }).length;
+  $id('stOver').textContent = '逾期 ' + overN;
+  $id('stDone').classList.toggle('on', statusFilter === 'done');
+  $id('stTodo').classList.toggle('on', statusFilter === 'todo');
+  $id('stOver').classList.toggle('on', statusFilter === 'over');
+  var moneySum = 0, moneyCnt = 0;
+  for(var i=0;i<state.tasks.length;i++){
+    if(state.tasks[i].amount > 0){ moneySum += state.tasks[i].amount; moneyCnt++; }
+  }
+  var big = $id('budgetBig');
+  big.textContent = '¥' + fmtMoney(moneySum);
+  var sub = '共 ' + moneyCnt + ' 笔已记录';
+  if(state.budget > 0){
+    var left = state.budget - moneySum;
+    sub += ' · 预算 ¥' + fmtMoney(state.budget) + ' · ' + (left >= 0 ? '剩余 ¥' + fmtMoney(left) : '超支 ¥' + fmtMoney(-left));
+    big.classList.toggle('over', left < 0);
+    $id('btnBudget').textContent = '改预算';
+  }else{
+    big.classList.remove('over');
+    $id('btnBudget').textContent = '设预算';
+  }
+  $id('budgetSub').textContent = sub;
+  var html = '';
+  for(var i=0;i<CATS.length;i++){
+    var c = CATS[i];
+    var ts = state.tasks.filter(function(x){ return x.cat === c.id; });
+    if(!ts.length) continue;
+    var d = ts.filter(function(x){ return x.done; }).length;
+    html += '<div class="cp-row"><div class="cp-head"><span>' + c.name + '</span><span class="cp-num">' + d + '/' + ts.length + '</span></div>'
+      + '<div class="cp-bar"><div class="cp-fill" style="width:' + (d/ts.length*100) + '%;background:' + c.color + '"></div></div></div>';
+  }
+  $id('catProgress').innerHTML = html;
+}
+
+function renderStatusFilters(){
+  var t = todayStr();
+  var doneN = state.tasks.filter(function(x){ return x.done; }).length;
+  var overN = state.tasks.filter(function(x){ return !x.done && x.deadline && x.deadline < t; }).length;
+  var defs = [
+    {id:'all',  name:'全部',   n: state.tasks.length},
+    {id:'todo', name:'待办',   n: state.tasks.length - doneN},
+    {id:'done', name:'已完成', n: doneN},
+    {id:'over', name:'逾期',   n: overN}
+  ];
+  var html = '';
+  for(var i=0;i<defs.length;i++){
+    html += '<button class="chip' + (statusFilter===defs[i].id ? ' on' : '') + '" data-sf="' + defs[i].id + '">' + defs[i].name + ' <span class="cnt">' + defs[i].n + '</span></button>';
+  }
+  $id('statusFilters').innerHTML = html;
+}
+
+function renderFilters(){
+  var html = '<button class="chip' + (filter==='all' ? ' on' : '') + '" data-f="all">全部 <span class="cnt">' + state.tasks.length + '</span></button>';
+  var cs = getCats();
+  for(var i=0;i<cs.length;i++){
+    var n = state.tasks.filter(function(x){ return x.cat === cs[i].id; }).length;
+    if(!n) continue;
+    html += '<button class="chip' + (filter===cs[i].id ? ' on' : '') + '" data-f="' + cs[i].id + '">' + esc(cs[i].name) + ' <span class="cnt">' + n + '</span></button>';
+  }
+  $id('filters').innerHTML = html;
+}
+
+function renderTasks(){
+  var t = todayStr();
+  var list = state.tasks.filter(function(x){
+      if(filter!=='all' && x.cat!==filter) return false;
+      if(statusFilter==='done' && !x.done) return false;
+      if(statusFilter==='todo' && x.done) return false;
+      if(statusFilter==='over' && (x.done || !x.deadline || x.deadline >= t)) return false;
+      return true;
+    })
+    .slice().sort(function(a,b){
+      if(a.done!==b.done) return a.done ? 1 : -1;
+      var ad = a.deadline || '9999-12-31', bd = b.deadline || '9999-12-31';
+      if(ad!==bd) return ad<bd ? -1 : 1;
+      var p = {P0:0,P1:1,P2:2};
+      return (p[a.priority]!==undefined?p[a.priority]:1) - (p[b.priority]!==undefined?p[b.priority]:1);
+    });
+  $id('taskCount').textContent = '共 ' + list.length + ' 项';
+  var el = $id('taskList');
+  if(!list.length){
+    var emptyMsg = filter==='all'
+      ? (statusFilter==='over' ? '没有逾期事项，保持得很好 👏' : statusFilter==='done' ? '还没有已完成的事项' : statusFilter==='todo' ? '全部完成，太棒了 🎉' : '还没有备婚事项，从上面添加第一条开始吧')
+      : '当前筛选条件下暂无事项';
+    el.innerHTML = '<div class="task-empty">' + emptyMsg + '</div>';
+    return;
+  }
+  var html = '';
+  for(var i=0;i<list.length;i++){
+    var x = list[i], c = catOf(x.cat);
+    var dcls = '', dtx;
+    if(x.deadline){
+      if(!x.done && x.deadline < t){ dcls = 'over'; dtx = '已逾期 ' + diffDays(x.deadline, t) + ' 天'; }
+      else if(!x.done && diffDays(t, x.deadline) <= 7){ dcls = 'soon'; dtx = '还剩 ' + diffDays(t, x.deadline) + ' 天'; }
+      else dtx = fmtShort(x.deadline) + (x.dueTime ? ' ' + x.dueTime : '') + ' 截止';
+    } else dtx = '日期待定';
+    var amtHTML = (x.amount > 0)
+      ? '<span class="amt" data-act="edit" data-id="' + x.id + '">¥' + fmtMoney(x.amount) + '</span>'
+      : '<span class="amt-add" data-act="edit" data-id="' + x.id + '">+ 金额</span>';
+    var noteHTML = (x.note) ? '<div class="t-note">' + esc(x.note) + '</div>' : '';
+    html += '<div class="task' + (x.done ? ' done' : '') + '">'
+      + '<button class="check" data-act="toggle" data-id="' + x.id + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></button>'
+      + '<div class="t-main"><div class="t-line">'
+      + '<div class="t-title">' + esc(x.title) + '</div>'
+      + amtHTML
+      + '</div>'
+      + '<div class="t-meta"><span class="tag" style="color:' + c.color + ';background:' + c.color + '1f">' + c.name + '</span>'
+      + '<span class="prio ' + (x.priority || 'P1').toLowerCase() + '">' + (x.priority || 'P1') + '</span>'
+      + '<span class="dline ' + dcls + '">' + dtx + '</span></div>'
+      + noteHTML + '</div>'
+      + '<button class="edit" data-act="edit" data-id="' + x.id + '" title="备注/费用"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.8 2.8 0 0 1 4 4L7.5 20.5 2 22l1.5-5.5z"/></svg></button>'
+      + '<button class="del" data-act="del" data-id="' + x.id + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4.5A1.5 1.5 0 0 1 9.5 3h5A1.5 1.5 0 0 1 16 4.5V6m2.5 0l-.8 13.1a2 2 0 0 1-2 1.9H8.3a2 2 0 0 1-2-1.9L5.5 6M10 11v6m4-6v6"/></svg></button>'
+      + '</div>';
+  }
+  el.innerHTML = html;
+}
+
+function renderTimeline(){
+  var t = todayStr(), html = '', cur = true;
+  for(var i=0;i<STAGES.length;i++){
+    var s = STAGES[i], st;
+    if(t > s.end){ st = 'done'; }
+    else if(cur){ st = 'current'; cur = false; }
+    else { st = 'pending'; }
+    var stLabel = st==='done' ? '已完成' : (st==='current' ? '进行中' : '未开始');
+    html += '<div class="tl-item ' + st + '">'
+      + '<div class="tl-body"><div class="tl-head"><span class="tl-name">' + s.name + '</span>'
+      + '<span class="tl-st ' + st + '">' + stLabel + '</span></div>'
+      + '<div class="tl-time">' + s.time + '</div>'
+      + '<div class="tl-desc">' + s.desc + '</div></div></div>';
+  }
+  $id('timeline').innerHTML = html;
+}
+
+function renderBackupTip(){
+  var n = state.tasks.length;
+  var el = $id('backupTip');
+  if(n >= 30){ $id('backupNum').textContent = n; el.classList.remove('hidden'); }
+  else el.classList.add('hidden');
+}
+
+/* ---- 操作 ---- */
+function toggleTask(id){
+  for(var i=0;i<state.tasks.length;i++){
+    if(state.tasks[i].id === id){
+      state.tasks[i].done = !state.tasks[i].done;
+      save(); renderAll();
+      toast(state.tasks[i].done ? '已完成，进度 +1' : '已取消完成');
+      return;
+    }
+  }
+}
+function deleteTask(id){
+  var idx = -1;
+  for(var i=0;i<state.tasks.length;i++) if(state.tasks[i].id===id){ idx=i; break; }
+  if(idx < 0) return;
+  var title = state.tasks[idx].title;
+  requireAdmin(function(){
+    state.tasks.splice(idx, 1); save(); renderAll(); toast('已删除');
+  }, '删除事项需要管理密码\n「' + title + '」');
+}
+function addTask(ev){
+  ev.preventDefault();
+  var title = $id('inpTitle').value.trim();
+  if(!title){ toast('请先输入备婚事项'); $id('inpTitle').focus(); return; }
+  var a = parseFloat($id('inpAmount').value);
+  state.tasks.push({
+    id: uid(), title: title,
+    cat: $id('inpCat').value,
+    deadline: $id('inpDate').value || '',
+    priority: $id('inpPrio').value,
+    done: false,
+    dueTime: '',
+    note: $id('inpNote').value.trim(),
+    amount: (isNaN(a) || a < 0) ? 0 : Math.round(a)
+  });
+  save();
+  $id('inpTitle').value = '';
+  $id('inpDate').value = '';
+  $id('inpNote').value = '';
+  $id('inpAmount').value = '';
+  renderAll();
+  toast('已添加：' + (title.length > 14 ? title.slice(0,14) + '…' : title));
+  $id('inpTitle').focus();
+}
+
+/* ---- 弹窗 ---- */
+function showModal(text, ok, danger){
+  modalOk = ok;
+  $id('modalText').textContent = text;
+  $id('mOk').classList.toggle('danger', !!danger);
+  $id('mask').classList.remove('hidden');
+}
+function hideModal(){ $id('mask').classList.add('hidden'); modalOk = null; }
+
+/* ---- 备注 / 费用编辑 ---- */
+var editId = null;
+function fillEditCat(selId){
+  var sel = $id('editCat'), html = '';
+  var cs = getCats();
+  for(var i=0;i<cs.length;i++) html += '<option value="' + cs[i].id + '">' + esc(cs[i].name) + '</option>';
+  sel.innerHTML = html;
+  if(selId) sel.value = selId;
+}
+function openEdit(id){
+  for(var i=0;i<state.tasks.length;i++){
+    if(state.tasks[i].id === id){
+      editId = id;
+      $id('editTitle').value = state.tasks[i].title || '';
+      fillEditCat(state.tasks[i].cat);
+      $id('editDeadline').value = state.tasks[i].deadline || '';
+      $id('editTime').value = state.tasks[i].dueTime || '';
+      $id('editNote').value = state.tasks[i].note || '';
+      $id('editAmount').value = state.tasks[i].amount > 0 ? state.tasks[i].amount : '';
+      $id('editMask').classList.remove('hidden');
+      return;
+    }
+  }
+}
+function closeEdit(){ $id('editMask').classList.add('hidden'); editId = null; }
+$id('editCancel').addEventListener('click', closeEdit);
+$id('editMask').addEventListener('click', function(e){ if(e.target === $id('editMask')) closeEdit(); });
+$id('editSave').addEventListener('click', function(){
+  if(!editId) return;
+  for(var i=0;i<state.tasks.length;i++){
+    if(state.tasks[i].id === editId){
+      var t = $id('editTitle').value.trim();
+      if(t) state.tasks[i].title = t;
+      state.tasks[i].cat = $id('editCat').value || state.tasks[i].cat;
+      state.tasks[i].deadline = $id('editDeadline').value || '';
+      state.tasks[i].dueTime = $id('editTime').value || '';
+      state.tasks[i].note = $id('editNote').value.trim();
+      var a = parseFloat($id('editAmount').value);
+      state.tasks[i].amount = (isNaN(a) || a < 0) ? 0 : Math.round(a);
+      break;
+    }
+  }
+  closeEdit();
+  save(); renderAll();
+  toast('已保存');
+});
+
+/* ---- 总预算设置 ---- */
+$id('btnBudget').addEventListener('click', function(){
+  $id('budgetInput').value = state.budget > 0 ? state.budget : '';
+  $id('budgetMask').classList.remove('hidden');
+});
+$id('budgetCancel').addEventListener('click', function(){ $id('budgetMask').classList.add('hidden'); });
+$id('budgetMask').addEventListener('click', function(e){ if(e.target === $id('budgetMask')) $id('budgetMask').classList.add('hidden'); });
+$id('budgetSave').addEventListener('click', function(){
+  var b = parseFloat($id('budgetInput').value);
+  state.budget = (isNaN(b) || b < 0) ? 0 : Math.round(b);
+  $id('budgetMask').classList.add('hidden');
+  save(); renderProgress();
+  toast(state.budget > 0 ? '预算已设置' : '已清除预算');
+});
+$id('budgetClear').addEventListener('click', function(){
+  state.budget = 0;
+  $id('budgetInput').value = '';
+  $id('budgetMask').classList.add('hidden');
+  save(); renderProgress();
+  toast('已清除预算');
+});
+
+/* ---- 事件绑定 ---- */
+$id('mCancel').addEventListener('click', hideModal);
+$id('mOk').addEventListener('click', function(){ var fn = modalOk; hideModal(); if(fn) fn(); });
+$id('mask').addEventListener('click', function(e){ if(e.target === $id('mask')) hideModal(); });
+
+$id('btnExport').addEventListener('click', function(){
+  var data = JSON.stringify({app:'Y&K婚礼工作台', version:3, wedDate:WED, exportedAt:todayStr(), tasks:state.tasks, favs:state.favs, budget:state.budget}, null, 2);
+  var blob = new Blob([data], {type:'application/json'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = '备婚数据备份-' + todayStr() + '.json';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 300);
+  toast('备份文件已导出');
+});
+$id('btnImport').addEventListener('click', function(){ $id('fileInput').click(); });
+$id('fileInput').addEventListener('change', function(){
+  var f = this.files && this.files[0];
+  if(!f) return;
+  var rd = new FileReader();
+  rd.onload = function(e){
+    try{
+      var d = JSON.parse(e.target.result);
+      var tasks = Array.isArray(d) ? d : (d && d.tasks);
+      if(!Array.isArray(tasks)) throw new Error('bad');
+      requireAdmin(function(){
+        state.tasks = tasks.filter(function(x){ return x && x.title; }).map(function(x){
+          return {id: x.id || uid(), title: String(x.title), cat: x.cat || 'plan', deadline: x.deadline || '', dueTime: x.dueTime || '', priority: x.priority || 'P1', done: !!x.done, note: x.note || '', amount: Number(x.amount) > 0 ? Math.round(Number(x.amount)) : 0};
+        });
+        state.favs = Array.isArray(d.favs) ? d.favs : [];
+        state.budget = Number(d.budget) > 0 ? Math.round(Number(d.budget)) : 0;
+        save(); renderAll();
+        toast('导入成功，共 ' + state.tasks.length + ' 条');
+      }, '导入覆盖需要管理密码\n将覆盖当前 ' + state.tasks.length + ' 条数据');
+    }catch(err){ toast('导入失败：文件格式不正确'); }
+    $id('fileInput').value = '';
+  };
+  rd.readAsText(f);
+});
+$id('btnClear').addEventListener('click', function(){
+  requireAdmin(function(){
+    state.tasks = []; state.favs = []; save(); renderAll(); toast('已清空');
+  }, '清空全部数据需要管理密码\n将删除 ' + state.tasks.length + ' 条事项\n（建议先导出备份）');
+});
+
+function onListClick(e){
+  var b = e.target.closest('[data-act]');
+  if(!b) return;
+  var act = b.getAttribute('data-act'), id = b.getAttribute('data-id');
+  if(act === 'toggle') toggleTask(id);
+  else if(act === 'del') deleteTask(id);
+  else if(act === 'edit') openEdit(id);
+}
+$id('todayList').addEventListener('click', onListClick);
+$id('taskList').addEventListener('click', onListClick);
+$id('filters').addEventListener('click', function(e){
+  var b = e.target.closest('[data-f]');
+  if(!b) return;
+  filter = b.getAttribute('data-f');
+  renderFilters(); renderTasks();
+});
+function setStatusFilter(id, scroll){
+  statusFilter = id;
+  renderProgress(); renderStatusFilters(); renderFilters(); renderTasks();
+  if(scroll){
+    var card = $id('listCard');
+    if(card) card.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+}
+$id('statusFilters').addEventListener('click', function(e){
+  var b = e.target.closest('[data-sf]');
+  if(!b) return;
+  setStatusFilter(b.getAttribute('data-sf'), false);
+});
+Array.prototype.forEach.call(document.querySelectorAll('[data-st]'), function(el){
+  el.addEventListener('click', function(){ setStatusFilter(el.getAttribute('data-st'), true); });
+});
+$id('addForm').addEventListener('submit', addTask);
+
+/* 分类下拉 */
+(function(){
+  var sel = $id('inpCat'), html = '';
+  var cs = getCats();
+  for(var i=0;i<cs.length;i++) html += '<option value="' + cs[i].id + '">' + esc(cs[i].name) + '</option>';
+  sel.innerHTML = html;
+})();
+function refreshInpCat(){
+  var sel = $id('inpCat'), html = '';
+  var cs = getCats();
+  for(var i=0;i<cs.length;i++) html += '<option value="' + cs[i].id + '">' + esc(cs[i].name) + '</option>';
+  sel.innerHTML = html;
+}
+
+/* ---- 背景图 ---- */
+var bgHeader = null;
+function getBgHeader(){ if(!bgHeader) bgHeader = document.querySelector('header.top'); return bgHeader; }
+function applyBg(url){
+  var h = getBgHeader();
+  h.style.backgroundImage = 'linear-gradient(rgba(214,74,124,.42), rgba(150,36,84,.58)), url(' + url + ')';
+  h.style.backgroundSize = 'cover';
+  h.style.backgroundPosition = 'center';
+  $id('bgReset').classList.remove('hidden');
+}
+function loadBg(){
+  try{
+    var b = localStorage.getItem(LS + 'bg');
+    if(b) applyBg(b);
+  }catch(e){}
+}
+function handleBgFile(file){
+  var rd = new FileReader();
+  rd.onload = function(e){
+    var img = new Image();
+    img.onload = function(){
+      var max = 1920, w = img.width, h = img.height;
+      if(w > max || h > max){ var r = Math.min(max / w, max / h); w = Math.round(w * r); h = Math.round(h * r); }
+      var cv = document.createElement('canvas');
+      cv.width = w; cv.height = h;
+      cv.getContext('2d').drawImage(img, 0, 0, w, h);
+      var url;
+      try{ url = cv.toDataURL('image/jpeg', 0.82); }
+      catch(err){ url = e.target.result; }
+      try{
+        localStorage.setItem(LS + 'bg', url);
+        applyBg(url);
+        toast('背景已更换，随时可以再换');
+      }catch(err){ toast('图片太大保存失败，请换一张小一点的'); }
+    };
+    img.onerror = function(){ toast('图片读取失败，请换一张'); };
+    img.src = e.target.result;
+  };
+  rd.readAsDataURL(file);
+}
+$id('btnBg').addEventListener('click', function(){ $id('bgInput').click(); });
+
+/* ---- 分享 ---- */
+function shareUrl(){ return location.href.split('#')[0]; }
+function closeShare(){ $id('shareMask').classList.add('hidden'); }
+function openShare(){
+  $id('shareUrl').value = shareUrl();
+  $id('shareNative').classList.toggle('hidden', !navigator.share);
+  $id('shareMask').classList.remove('hidden');
+}
+$id('btnShare').addEventListener('click', function(){
+  if(navigator.share){
+    navigator.share({title:'Y&K 婚礼工作台', text:'一起筹备我们的婚礼吧 💍', url: shareUrl()}).catch(function(){});
+    return;
+  }
+  openShare();
+});
+$id('shareClose').addEventListener('click', closeShare);
+$id('shareMask').addEventListener('click', function(e){ if(e.target === $id('shareMask')) closeShare(); });
+$id('shareCopy').addEventListener('click', function(){
+  var inp = $id('shareUrl');
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(inp.value).then(function(){ toast('链接已复制，去粘贴给 TA 吧'); })
+      .catch(function(){ inp.select(); document.execCommand('copy'); toast('链接已复制'); });
+  }else{
+    inp.select();
+    try{ document.execCommand('copy'); toast('链接已复制'); }
+    catch(e){ toast('请长按复制上方链接'); }
+  }
+});
+$id('shareNative').addEventListener('click', function(){
+  navigator.share({title:'Y&K 婚礼工作台', text:'一起筹备我们的婚礼吧 💍', url: shareUrl()}).catch(function(){});
+});
+$id('bgInput').addEventListener('change', function(){
+  var f = this.files && this.files[0];
+  if(f) handleBgFile(f);
+  this.value = '';
+});
+$id('bgReset').addEventListener('click', function(){
+  try{ localStorage.removeItem(LS + 'bg'); }catch(e){}
+  var h = getBgHeader();
+  h.style.backgroundImage = '';
+  h.style.backgroundSize = '';
+  h.style.backgroundPosition = '';
+  $id('bgReset').classList.add('hidden');
+  toast('已恢复默认背景');
+});
+
+/* ---- 云同步（Supabase REST） ---- */
+var ADMIN_SALT = 'y&k-wedding-v1-2027';
+var syncTimer = null;
+var pollTimer = null;
+var adminCallback = null;
+
+function saveCloudConfig(){
+  try{ localStorage.setItem(LS + 'cloud', JSON.stringify({cloud: state.cloud, adminHash: state.adminHash})); }catch(e){}
+}
+var DEFAULT_CLOUD = {
+  url: 'https://qozinsmxrbjtemtehjzm.supabase.co',
+  key: 'sb_publishable_Kin88cMB3b0rZohDPyRTQQ_kFE7bz5_'
+};
+function loadCloudConfig(){
+  try{
+    var raw = localStorage.getItem(LS + 'cloud');
+    if(raw){
+      var d = JSON.parse(raw);
+      if(d && d.cloud){
+        state.cloud.url = d.cloud.url || DEFAULT_CLOUD.url;
+        state.cloud.key = d.cloud.key || DEFAULT_CLOUD.key;
+        state.cloud.enabled = !!d.cloud.enabled;
+        state.cloud.lastSync = d.cloud.lastSync || 0;
+      }
+      if(d && d.adminHash) state.adminHash = d.adminHash;
+      return;
+    }
+  }catch(e){}
+  /* 首次打开（无任何本地云配置）：自动连接内置云配置，无需手动填写 */
+  state.cloud.url = DEFAULT_CLOUD.url;
+  state.cloud.key = DEFAULT_CLOUD.key;
+  state.cloud.enabled = true;
+  saveCloudConfig();
+}
+function saveCatNames(){
+  try{ localStorage.setItem(LS + 'cats', JSON.stringify({names: state.catNames || {}, custom: state.customCats || [], hidden: state.hiddenCats || {}})); }catch(e){}
+}
+function loadCatNames(){
+  try{
+    var raw = localStorage.getItem(LS + 'cats');
+    if(raw){
+      var d = JSON.parse(raw);
+      if(typeof d === 'object' && !d.names && d.plan !== undefined){ state.catNames = d; }
+      else {
+        if(d.names && typeof d.names === 'object') state.catNames = d.names;
+        if(Array.isArray(d.custom)) state.customCats = d.custom;
+        if(d.hidden && typeof d.hidden === 'object') state.hiddenCats = d.hidden;
+      }
+    }
+  }catch(e){}
+}
+function renderCloudStatus(){
+  var b = $id('cloudBtn'); if(!b) return;
+  var lbl = $id('cloudLabel');
+  if(!state.cloud.enabled){ b.className = 'cloud-btn off'; lbl.textContent = '未连接'; }
+  else if(state.cloud.status === 'syncing'){ b.className = 'cloud-btn syncing'; lbl.textContent = '同步中…'; }
+  else if(state.cloud.status === 'error'){ b.className = 'cloud-btn err'; lbl.textContent = '同步出错'; }
+  else { b.className = 'cloud-btn on'; lbl.textContent = '已同步'; }
+  var disc = $id('cloudDisconnectBtn'); if(disc) disc.classList.toggle('hidden', !state.cloud.enabled);
+}
+async function sha256Hex(str){
+  if(!crypto || !crypto.subtle){
+    var h = 5381; for(var i=0;i<str.length;i++) h = ((h<<5) + h) + str.charCodeAt(i);
+    return 'fb_' + (h>>>0).toString(16);
+  }
+  var buf = new TextEncoder().encode(str);
+  var digest = await crypto.subtle.digest('SHA-256', buf);
+  return Array.from(new Uint8Array(digest)).map(function(b){ return b.toString(16).padStart(2, '0'); }).join('');
+}
+async function cloudGet(){
+  if(!state.cloud.url || !state.cloud.key) return null;
+  var r = await fetch(state.cloud.url.replace(/\/$/,'') + '/rest/v1/wedding_state?key=eq.main&select=*', {
+    headers: { 'apikey': state.cloud.key, 'Authorization': 'Bearer ' + state.cloud.key }
+  });
+  if(r.status === 404) return null;
+  if(!r.ok) throw new Error('云端连接失败：HTTP ' + r.status);
+  var arr = await r.json();
+  return arr[0] || null;
+}
+async function cloudPush(){
+  if(!state.cloud.url || !state.cloud.key) return;
+  var payload = { key:'main', value: { tasks: state.tasks, favs: state.favs, budget: state.budget, _u: Date.now() } };
+  var r = await fetch(state.cloud.url.replace(/\/$/,'') + '/rest/v1/wedding_state', {
+    method: 'POST',
+    headers: {
+      'apikey': state.cloud.key, 'Authorization': 'Bearer ' + state.cloud.key,
+      'Content-Type': 'application/json',
+      'Prefer': 'resolution=merge-duplicates,return=minimal'
+    },
+    body: JSON.stringify(payload)
+  });
+  if(!r.ok) throw new Error('云端写入失败：HTTP ' + r.status);
+  state.cloud.lastSync = Date.now();
+  state.cloud.status = 'online';
+  saveCloudConfig();
+  renderCloudStatus();
+}
+function stateToCloudFromLocal(){
+  return { tasks: state.tasks, favs: state.favs, budget: state.budget };
+}
+function mergeRemote(remote){
+  if(!remote || !remote.value) return false;
+  var rv = remote.value;
+  var byId = {};
+  state.tasks.forEach(function(t){ byId[t.id] = t; });
+  (rv.tasks || []).forEach(function(t){
+    if(!t || !t.id) return;
+    if(!byId[t.id]){ byId[t.id] = t; }
+    else {
+      var a = byId[t.id], b = t;
+      byId[t.id] = {
+        id: a.id,
+        title: a.title || b.title,
+        cat: a.cat || b.cat,
+        deadline: a.deadline || b.deadline,
+        priority: a.priority || b.priority,
+        done: !!(a.done || b.done),
+        note: (b.note && b.note.length > (a.note||'').length) ? b.note : (a.note || b.note || ''),
+        amount: Math.max(Number(a.amount)||0, Number(b.amount)||0)
+      };
+    }
+  });
+  state.tasks = Object.values(byId);
+  state.favs = Array.from(new Set((state.favs||[]).concat(rv.favs||[])));
+  state.budget = Math.max(Number(state.budget)||0, Number(rv.budget)||0);
+  return true;
+}
+function scheduleSync(){
+  if(!state.cloud.enabled) return;
+  state.cloud.status = 'syncing';
+  renderCloudStatus();
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(async function(){
+    try{ await cloudPush(); toast('已同步到云端'); }
+    catch(e){ state.cloud.status = 'error'; renderCloudStatus(); toast('云端同步失败：' + (e.message||'')); }
+  }, 1500);
+}
+async function pollOnce(){
+  if(!state.cloud.enabled) return;
+  try{
+    var remote = await cloudGet();
+    if(!remote){ await cloudPush(); return; }
+    var ru = remote.updated_at ? new Date(remote.updated_at).getTime() : 0;
+    if(ru > (state.cloud.lastSync || 0) + 2000){
+      if(mergeRemote(remote)){
+        save();
+        state.cloud.lastSync = Date.now();
+        state.cloud.status = 'online';
+        saveCloudConfig();
+        renderAll();
+        renderCloudStatus();
+        toast('已从云端拉取最新数据');
+      }
+    } else {
+      state.cloud.status = 'online';
+      renderCloudStatus();
+    }
+  }catch(e){ /* keep offline */ state.cloud.status = 'error'; renderCloudStatus(); }
+}
+function startPolling(){
+  stopPolling();
+  if(!state.cloud.enabled) return;
+  pollTimer = setInterval(pollOnce, 15000);
+  pollOnce();
+}
+function stopPolling(){
+  if(pollTimer) clearInterval(pollTimer);
+  pollTimer = null;
+}
+function setCloudMsg(text){ var m = $id('cloudMsg'); if(m) m.textContent = text; }
+
+/* ---- 管理码校验 ---- */
+function requireAdmin(ok, msg){
+  if(!state.adminHash){ toast('请先在「云同步」中设置管理密码'); openCloudMask(); return; }
+  adminCallback = ok;
+  $id('adminMsg').textContent = msg || '该操作仅主账号可执行';
+  $id('adminInput').value = '';
+  $id('adminMask').classList.remove('hidden');
+  setTimeout(function(){ $id('adminInput').focus(); }, 100);
+}
+async function tryAdmin(){
+  var pwd = $id('adminInput').value;
+  if(!pwd){ toast('请输入管理密码'); return; }
+  var h = await sha256Hex(pwd + ADMIN_SALT);
+  if(h === state.adminHash){
+    var fn = adminCallback; adminCallback = null;
+    $id('adminMask').classList.add('hidden');
+    $id('adminInput').value = '';
+    if(fn) fn();
+  } else {
+    toast('管理密码错误');
+    $id('adminInput').value = '';
+    $id('adminInput').focus();
+  }
+}
+function openCloudMask(){
+  $id('cloudUrl').value = state.cloud.url || '';
+  $id('cloudKey').value = state.cloud.key || '';
+  $id('adminPwd').value = '';
+  $id('adminPwd2').value = '';
+  var p2 = $id('adminPwd2');
+  if(state.adminHash){
+    p2.classList.add('hidden');
+    $id('adminPwd').placeholder = '重设管理密码（留空则不修改）';
+  } else {
+    p2.classList.remove('hidden');
+    $id('adminPwd').placeholder = '管理密码（≥6 位）';
+  }
+  setCloudMsg(state.cloud.enabled ? '已连接到云端' : '未连接');
+  $id('cloudMask').classList.remove('hidden');
+}
+async function cloudTest(){
+  var url = $id('cloudUrl').value.trim();
+  var key = $id('cloudKey').value.trim();
+  if(!url || !key){ setCloudMsg('请先填写 URL 和 key'); return; }
+  setCloudMsg('测试连接中…');
+  var oldUrl = state.cloud.url, oldKey = state.cloud.key;
+  state.cloud.url = url; state.cloud.key = key;
+  try{
+    var remote = await cloudGet();
+    setCloudMsg('连接成功！' + (remote ? '云端已有 ' + (remote.value && remote.value.tasks ? remote.value.tasks.length : 0) + ' 条数据' : '云端为空'));
+  }catch(e){
+    setCloudMsg('连接失败：' + (e.message || '请检查 URL 和 key'));
+    state.cloud.url = oldUrl; state.cloud.key = oldKey;
+  }
+}
+async function cloudSaveConnect(){
+  var url = $id('cloudUrl').value.trim();
+  var key = $id('cloudKey').value.trim();
+  var pwd = $id('adminPwd').value;
+  var pwd2 = $id('adminPwd2').value;
+  if(!url || !key){ setCloudMsg('请填写 URL 和 key'); return; }
+  if(!state.adminHash && (!pwd || pwd.length < 6)){ setCloudMsg('请设置至少 6 位管理密码'); return; }
+  if(pwd && !state.adminHash && pwd !== pwd2){ setCloudMsg('两次密码不一致'); return; }
+  if(pwd && pwd.length > 0 && pwd.length < 6){ setCloudMsg('管理密码至少 6 位'); return; }
+  state.cloud.url = url; state.cloud.key = key;
+  setCloudMsg('正在连接…');
+  try{
+    var remote = await cloudGet();
+    if(remote){ mergeRemote(remote); }
+    if(pwd){ state.adminHash = await sha256Hex(pwd + ADMIN_SALT); }
+    state.cloud.enabled = true;
+    await cloudPush();
+    save(); saveCloudConfig();
+    renderAll();
+    startPolling();
+    setCloudMsg('连接成功！已开始同步');
+    toast('云端已连接，已自动同步当前数据');
+    setTimeout(function(){ $id('cloudMask').classList.add('hidden'); }, 1200);
+  }catch(e){
+    setCloudMsg('连接失败：' + (e.message || ''));
+    state.cloud.enabled = false;
+    renderCloudStatus();
+  }
+}
+function cloudDisconnect(){
+  state.cloud.enabled = false;
+  state.cloud.url = ''; state.cloud.key = '';
+  state.cloud.status = 'offline';
+  state.cloud.lastSync = 0;
+  stopPolling();
+  saveCloudConfig();
+  renderCloudStatus();
+  toast('已断开云端，本地数据保留');
+  $id('cloudMask').classList.add('hidden');
+}
+
+$id('cloudBtn').addEventListener('click', openCloudMask);
+$id('cloudCancel').addEventListener('click', function(){ $id('cloudMask').classList.add('hidden'); });
+$id('cloudTestBtn').addEventListener('click', cloudTest);
+$id('cloudSaveBtn').addEventListener('click', cloudSaveConnect);
+$id('cloudDisconnectBtn').addEventListener('click', cloudDisconnect);
+$id('adminCancel').addEventListener('click', function(){ adminCallback = null; $id('adminMask').classList.add('hidden'); $id('adminInput').value = ''; });
+$id('adminOk').addEventListener('click', tryAdmin);
+$id('adminInput').addEventListener('keydown', function(e){ if(e.key === 'Enter') tryAdmin(); });
+$id('cloudMask').addEventListener('click', function(e){ if(e.target === $id('cloudMask')) $id('cloudMask').classList.add('hidden'); });
+$id('adminMask').addEventListener('click', function(e){ if(e.target === $id('adminMask')) { adminCallback = null; $id('adminMask').classList.add('hidden'); $id('adminInput').value = ''; } });
+
+loadCloudConfig();
+loadCatNames();
+
+/* ---- 分类管理 ---- */
+var renameSelId = null;
+var renameColor = '#e0527d';
+var RENAME_COLORS = ['#e0527d','#c9971c','#f4a261','#9b5de5','#00a8cc','#6a994e','#8d6e63','#d94b4b','#999999'];
+function renderColorRow(){
+  var html = '';
+  for(var i=0;i<RENAME_COLORS.length;i++){
+    html += '<button class="c-swatch' + (RENAME_COLORS[i] === renameColor ? ' on' : '') + '" data-c="' + RENAME_COLORS[i] + '" style="background:' + RENAME_COLORS[i] + '"></button>';
+  }
+  $id('colorRow').innerHTML = html;
+}
+function openRename(){
+  renameSelId = null;
+  renameColor = '#e0527d';
+  renderChips();
+  renderColorRow();
+  $id('renameInput').value = '';
+  $id('renameInput').placeholder = '分类名称（≤8 字），不选分类直接输入 = 新增';
+  $id('renameMask').classList.remove('hidden');
+}
+function renderChips(){
+  var html = '';
+  var cs = getCats();
+  for(var i=0;i<cs.length;i++){
+    var ov = state.catNames[cs[i].id];
+    html += '<button class="chip' + (renameSelId === cs[i].id ? ' on' : '') + '" data-rc="' + cs[i].id + '">' + esc(cs[i].name) + (ov ? ' ✎' : '') + (cs[i].id === 'other' ? '（兜底）' : '') + '</button>';
+  }
+  $id('renameChips').innerHTML = html;
+}
+$id('renameChips').addEventListener('click', function(e){
+  var b = e.target.closest('[data-rc]');
+  if(!b) return;
+  var id = b.getAttribute('data-rc');
+  renameSelId = (renameSelId === id) ? null : id;
+  renderChips();
+  var cs = getCats(); var cur = null;
+  for(var i=0;i<cs.length;i++) if(cs[i].id === renameSelId){ cur = cs[i]; break; }
+  if(cur){
+    $id('renameInput').value = cur.name === '其他' && !state.catNames['other'] ? '' : cur.name;
+    renameColor = cur.color;
+    renderColorRow();
+    $id('renameInput').focus();
+  } else {
+    $id('renameInput').value = '';
+  }
+});
+$id('colorRow').addEventListener('click', function(e){
+  var b = e.target.closest('[data-c]');
+  if(!b) return;
+  renameColor = b.getAttribute('data-c');
+  renderColorRow();
+});
+$id('renameAdd').addEventListener('click', function(){
+  var v = $id('renameInput').value.trim();
+  if(!v){ toast('请输入新分类名称'); return; }
+  if(renameSelId){ toast('已选中分类，请用「保存改名」'); return; }
+  var cs = getCats();
+  for(var i=0;i<cs.length;i++) if(cs[i].name === v){ toast('已存在同名分类'); return; }
+  var id = 'c' + Date.now().toString(36) + Math.floor(Math.random()*90+10).toString(36);
+  state.customCats.push({id:id, name:v, color:renameColor});
+  saveCatNames();
+  $id('renameInput').value = '';
+  renderAll(); refreshInpCat();
+  renderChips();
+  toast('已新增分类：' + v);
+});
+$id('renameSave').addEventListener('click', function(){
+  if(!renameSelId){ toast('请先点选一个分类'); return; }
+  var v = $id('renameInput').value.trim();
+  if(!v){ toast('名称不能为空'); return; }
+  var isDefault = false;
+  for(var i=0;i<CATS.length;i++) if(CATS[i].id === renameSelId) isDefault = true;
+  var customId = false;
+  for(var j=0;j<state.customCats.length;j++) if(state.customCats[j].id === renameSelId) customId = true;
+  if(!isDefault && !customId && renameSelId !== 'other'){ toast('该分类已不存在'); return; }
+  if(isDefault || renameSelId === 'other'){
+    state.catNames[renameSelId] = v;
+  } else if(customId){
+    for(var k=0;k<state.customCats.length;k++) if(state.customCats[k].id === renameSelId){ state.customCats[k].name = v; state.customCats[k].color = renameColor; break; }
+  }
+  saveCatNames();
+  renderAll(); refreshInpCat();
+  renderChips();
+  toast('已改名：' + v);
+});
+$id('renameDelete').addEventListener('click', function(){
+  if(!renameSelId){ toast('请先点选要删除的分类'); return; }
+  if(renameSelId === 'other'){ toast('「其他」是兜底分类，不能删除'); return; }
+  var n = state.tasks.filter(function(x){ return x.cat === renameSelId; }).length;
+  var cs = getCats(); var cname = '该分类';
+  for(var i=0;i<cs.length;i++) if(cs[i].id === renameSelId) cname = cs[i].name;
+  showModal('删除分类「' + cname + '」？\n' + (n ? '其下 ' + n + ' 条任务将移入「其他」' : '该分类下暂无任务'), function(){
+    for(var j=0;j<state.tasks.length;j++) if(state.tasks[j].cat === renameSelId) state.tasks[j].cat = 'other';
+    delete state.catNames[renameSelId];
+    var removed = false;
+    for(var k=0;k<state.customCats.length;k++){ if(state.customCats[k].id === renameSelId){ state.customCats.splice(k,1); removed = true; break; } }
+    if(!removed){ var isDef=false; for(var d=0;d<CATS.length;d++) if(CATS[d].id===renameSelId) isDef=true; if(isDef) state.hiddenCats[renameSelId] = true; }
+    renameSelId = null;
+    saveCatNames();
+    renderAll(); refreshInpCat();
+    renderChips();
+    toast('分类已删除');
+  }, true);
+});
+$id('renameClose').addEventListener('click', function(){ $id('renameMask').classList.add('hidden'); });
+$id('btnRename').addEventListener('click', openRename);
+$id('renameMask').addEventListener('click', function(e){ if(e.target === $id('renameMask')) $id('renameMask').classList.add('hidden'); });
+
+load();
+renderAll();
+loadBg();
+if(state.cloud.enabled){ startPolling(); }
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(function(){}); }
+})();
+</script>
+</body>
+</html>
