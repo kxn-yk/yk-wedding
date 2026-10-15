@@ -360,7 +360,7 @@ footer.foot{text-align:center;color:#b9a0ab;font-size:12px;padding:8px 16px 30px
     <div class="timeline" id="timeline"></div>
   </section>
 
-  <footer class="foot">数据保存在本机浏览器 localStorage · 换设备用「导出 / 导入」迁移 · 建议每周备份一次</footer>
+  <footer class="foot">数据保存在本机浏览器 localStorage · 换设备用「导出 / 导入」迁移 · 建议每周备份一次<br><span style="color:#c0851e;font-weight:700">版本 v10 · GitHub Pages 同步版 · 2026-10-15</span></footer>
 </main>
 
 <div id="toast"></div>
@@ -414,6 +414,7 @@ footer.foot{text-align:center;color:#b9a0ab;font-size:12px;padding:8px 16px 30px
     <div class="modal-btns" style="flex-wrap:wrap">
       <button class="m-ghost" id="cloudTestBtn">测试连接</button>
       <button class="m-ok" id="cloudSaveBtn">保存并连接</button>
+      <button class="m-ghost" id="cloudDiagBtn">诊断</button>
       <button class="m-ghost hidden" id="cloudDisconnectBtn">断开同步</button>
       <button class="m-ghost" id="cloudCancel">关闭</button>
     </div>
@@ -1394,6 +1395,25 @@ $id('cloudCancel').addEventListener('click', function(){ $id('cloudMask').classL
 $id('cloudTestBtn').addEventListener('click', cloudTest);
 $id('cloudSaveBtn').addEventListener('click', cloudSaveConnect);
 $id('cloudDisconnectBtn').addEventListener('click', cloudDisconnect);
+$id('cloudDiagBtn').addEventListener('click', async function(){
+  var out = [];
+  setCloudMsg('诊断中…');
+  try{
+    var r = await fetch('https://api.github.com', { headers: ghHeaders() });
+    out.push('api.github.com → HTTP ' + r.status + (r.ok ? ' 通' : ' 异常'));
+  }catch(e){ out.push('api.github.com → 连不上（' + (e.message || '网络/代理拦截') + '）'); }
+  try{
+    var g = await fetch(ghUrl(), { headers: ghHeaders() });
+    out.push('读 data.json → HTTP ' + g.status + (g.ok ? ' 通' : ' 异常'));
+  }catch(e){ out.push('读 data.json → 连不上'); }
+  try{
+    var r2 = await fetch(GH.raw + '?t=' + Date.now());
+    var j = await r2.json();
+    out.push('静态 data.json → ' + ((j.tasks || []).length) + ' 条');
+  }catch(e){ out.push('静态 data.json → 读不到'); }
+  out.push('令牌：' + (state.gh.token ? '已填 ' + state.gh.token.slice(0,8) + '…' : '未填（只读）'));
+  setCloudMsg(out.join(' ｜ '));
+});
 $id('cloudShareBtn').addEventListener('click', function(){
   if(!state.gh.token){ toast('请先填入令牌'); return; }
   var link = location.origin + location.pathname + '?gh=' + encodeURIComponent(state.gh.token);
