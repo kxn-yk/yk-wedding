@@ -1210,7 +1210,7 @@ function scheduleSync(){
   clearTimeout(syncTimer);
   syncTimer = setTimeout(async function(){
     try{ await cloudPush(); toast('已同步到云端'); }
-    catch(e){ state.cloud.status = 'error'; renderCloudStatus(); toast('云端同步失败：' + (e.message||'')); }
+    catch(e){ state.cloud.status = 'error'; renderCloudStatus(); toast('云端同步失败 · ' + cloudErrText(e)); }
   }, 1500);
 }
 async function pollOnce(){
@@ -1246,6 +1246,15 @@ function stopPolling(){
   pollTimer = null;
 }
 function setCloudMsg(text){ var m = $id('cloudMsg'); if(m) m.textContent = text; }
+function cloudErrText(e){
+  var m = String((e && e.message) || '');
+  if(!m || m.indexOf('Failed to fetch') >= 0 || m.indexOf('NetworkError') >= 0 || m.indexOf('Load failed') >= 0){
+    return '连不上云端：网络不通或 Supabase 项目已暂停';
+  }
+  if(m.indexOf('HTTP 401') >= 0 || m.indexOf('HTTP 403') >= 0) return '云端密钥无效（' + m + '）';
+  if(m.indexOf('HTTP 404') >= 0) return '云端数据表不存在（' + m + '）';
+  return m;
+}
 
 /* ---- 管理码校验 ---- */
 function requireAdmin(ok, msg){
