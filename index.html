@@ -406,19 +406,19 @@ footer.foot{text-align:center;color:#b9a0ab;font-size:12px;padding:8px 16px 30px
 
 <div class="mask hidden" id="cloudMask">
   <div class="modal">
-    <h3>云同步设置</h3>
-    <p style="font-size:12px;color:#9a7d88;margin-bottom:10px;line-height:1.6">填入 Project URL + publishable key 即可连接你的 Supabase 数据库。首次连接会被要求设置「管理密码」用于保护删除/清空等危险操作（主权限在你）。</p>
-    <input class="inp" id="cloudUrl" placeholder="Project URL（如 https://xxxxx.supabase.co）">
-    <input class="inp" id="cloudKey" placeholder="publishable key（sb_publishable_...）">
+    <h3>数据同步</h3>
+    <p style="font-size:12px;color:#9a7d88;margin-bottom:10px;line-height:1.6">数据存放在 GitHub 仓库 <b>kxn-yk/yk-wedding</b> 的 data.json。填入令牌后可读可写（能保存修改）；不填则只能查看最新数据。</p>
+    <input class="inp" id="cloudKey" type="password" placeholder="GitHub 令牌（ghp_ 开头）">
     <input class="inp" id="adminPwd" type="password" placeholder="管理密码（≥6 位，仅你能输入）" maxlength="20">
     <input class="inp hidden" id="adminPwd2" type="password" placeholder="再输一次确认" maxlength="20">
     <div class="modal-btns" style="flex-wrap:wrap">
       <button class="m-ghost" id="cloudTestBtn">测试连接</button>
       <button class="m-ok" id="cloudSaveBtn">保存并连接</button>
-      <button class="m-ghost hidden" id="cloudDisconnectBtn">断开云端</button>
+      <button class="m-ghost hidden" id="cloudDisconnectBtn">断开同步</button>
       <button class="m-ghost" id="cloudCancel">关闭</button>
     </div>
     <p id="cloudMsg" style="margin-top:10px;font-size:12px;color:#9a7d88;line-height:1.5;min-height:14px"></p>
+    <button class="sh-native hidden" id="cloudShareBtn">复制带令牌的链接（发给对象，TA 打开即自动配好）</button>
   </div>
 </div>
 
@@ -507,7 +507,7 @@ var SEED = [
   {id:"tmv9062xnn61pb", title:"婚纱照礼服试纱", cat:"photo", deadline:"2026-11-22", priority:"P1", done:false, note:"已预约11.22号下午1点到店试纱", amount:0, dueTime:"13:00"}
 ];
 
-var state = {tasks: [], favs: [], budget: 0, catNames: {}, customCats: [], hiddenCats: {}, cloud: {url:'', key:'', enabled:false, lastSync:0, status:'offline'}, adminHash: ''};
+var state = {tasks: [], favs: [], budget: 0, catNames: {}, customCats: [], hiddenCats: {}, gh: {token:''}, cloud: {enabled:true, lastSync:0, status:'offline'}, adminHash: ''};
 var filter = 'all';
 var statusFilter = 'all';
 var modalOk = null;
@@ -1076,7 +1076,7 @@ $id('bgReset').addEventListener('click', function(){
   toast('已恢复默认背景');
 });
 
-/* ---- 云同步（Supabase REST） ---- */
+/* ---- 数据同步（GitHub 仓库 data.json） ---- */
 var ADMIN_SALT = 'y&k-wedding-v1-2027';
 var syncTimer = null;
 var pollTimer = null;
@@ -1085,30 +1085,41 @@ var adminCallback = null;
 function saveCloudConfig(){
   try{ localStorage.setItem(LS + 'cloud', JSON.stringify({cloud: state.cloud, adminHash: state.adminHash})); }catch(e){}
 }
-var DEFAULT_CLOUD = {
-  url: 'https://qozinsmxrbjtemtehjzm.supabase.co',
-  key: 'sb_publishable_Kin88cMB3b0rZohDPyRTQQ_kFE7bz5_'
-};
+var GH = {owner:'kxn-yk', repo:'yk-wedding', path:'data.json', raw:'https://kxn-yk.github.io/yk-wedding/data.json'};
+function ghUrl(){ return 'https://api.github.com/repos/' + GH.owner + '/' + GH.repo + '/contents/' + GH.path; }
+function ghHeaders(extra){
+  var h = {'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'};
+  if(state.gh.token) h['Authorization'] = 'Bearer ' + state.gh.token;
+  if(extra) for(var k in extra) h[k] = extra[k];
+  return h;
+}
+function ghB64Enc(str){ return btoa(unescape(encodeURIComponent(str))); }
+function ghB64Dec(b64){
+  var bin = atob(String(b64).replace(/\s/g,''));
+  var bytes = new Uint8Array(bin.length);
+  for(var i=0;i<bin.length;i++) bytes[i] = bin.charCodeAt(i);
+  return new TextDecoder().decode(bytes);
+}
+function saveCloudConfig(){
+  try{ localStorage.setItem(LS + 'cloud', JSON.stringify({gh: state.gh, cloud: state.cloud, adminHash: state.adminHash})); }catch(e){}
+}
 function loadCloudConfig(){
   try{
     var raw = localStorage.getItem(LS + 'cloud');
     if(raw){
       var d = JSON.parse(raw);
-      if(d && d.cloud){
-        state.cloud.url = d.cloud.url || DEFAULT_CLOUD.url;
-        state.cloud.key = d.cloud.key || DEFAULT_CLOUD.key;
-        state.cloud.enabled = !!d.cloud.enabled;
-        state.cloud.lastSync = d.cloud.lastSync || 0;
-      }
+      if(d && d.gh) state.gh.token = d.gh.token || '';
+      if(d && d.cloud){ state.cloud.enabled = !!d.cloud.enabled; state.cloud.lastSync = d.cloud.lastSync || 0; }
       if(d && d.adminHash) state.adminHash = d.adminHash;
-      return;
     }
   }catch(e){}
-  /* 首次打开（无任何本地云配置）：自动连接内置云配置，无需手动填写 */
-  state.cloud.url = DEFAULT_CLOUD.url;
-  state.cloud.key = DEFAULT_CLOUD.key;
-  state.cloud.enabled = true;
-  saveCloudConfig();
+  /* 分享链接可携带令牌 ?gh=xxx，打开即自动配好（写入本机后立刻清除 URL 里的令牌） */
+  try{
+    var q = new URLSearchParams(location.search);
+    var t = q.get('gh');
+    if(t){ state.gh.token = t; state.cloud.enabled = true; saveCloudConfig(); history.replaceState(null, '', location.pathname); }
+  }catch(e){}
+  if(!localStorage.getItem(LS + 'cloud') && !state.gh.token){ state.cloud.enabled = true; saveCloudConfig(); }
 }
 function saveCatNames(){
   try{ localStorage.setItem(LS + 'cats', JSON.stringify({names: state.catNames || {}, custom: state.customCats || [], hidden: state.hiddenCats || {}})); }catch(e){}
@@ -1133,7 +1144,8 @@ function renderCloudStatus(){
   if(!state.cloud.enabled){ b.className = 'cloud-btn off'; lbl.textContent = '未连接'; }
   else if(state.cloud.status === 'syncing'){ b.className = 'cloud-btn syncing'; lbl.textContent = '同步中…'; }
   else if(state.cloud.status === 'error'){ b.className = 'cloud-btn err'; lbl.textContent = '同步出错'; }
-  else { b.className = 'cloud-btn on'; lbl.textContent = '已同步'; }
+  else if(state.gh.token){ b.className = 'cloud-btn on'; lbl.textContent = '已同步'; }
+  else { b.className = 'cloud-btn off'; lbl.textContent = '只读模式'; }
   var disc = $id('cloudDisconnectBtn'); if(disc) disc.classList.toggle('hidden', !state.cloud.enabled);
 }
 async function sha256Hex(str){
@@ -1146,28 +1158,38 @@ async function sha256Hex(str){
   return Array.from(new Uint8Array(digest)).map(function(b){ return b.toString(16).padStart(2, '0'); }).join('');
 }
 async function cloudGet(){
-  if(!state.cloud.url || !state.cloud.key) return null;
-  var r = await fetch(state.cloud.url.replace(/\/$/,'') + '/rest/v1/wedding_state?key=eq.main&select=*', {
-    headers: { 'apikey': state.cloud.key, 'Authorization': 'Bearer ' + state.cloud.key }
-  });
-  if(r.status === 404) return null;
-  if(!r.ok) throw new Error('云端连接失败：HTTP ' + r.status);
-  var arr = await r.json();
-  return arr[0] || null;
+  if(state.gh.token){
+    var r = await fetch(ghUrl(), { headers: ghHeaders() });
+    if(r.status === 404) return null;
+    if(r.status === 401 || r.status === 403) throw new Error('HTTP ' + r.status + ' 令牌无效');
+    if(!r.ok) throw new Error('HTTP ' + r.status);
+    var j = await r.json();
+    var val = JSON.parse(ghB64Dec(j.content));
+    return { value: val, sha: j.sha };
+  }
+  /* 无令牌：只读模式，从 GitHub Pages 静态文件读取（可能延迟几十秒） */
+  var r2 = await fetch(GH.raw + '?t=' + Date.now());
+  if(!r2.ok) return null;
+  var val2 = await r2.json();
+  return { value: val2, sha: null };
 }
 async function cloudPush(){
-  if(!state.cloud.url || !state.cloud.key) return;
-  var payload = { key:'main', value: { tasks: state.tasks, favs: state.favs, budget: state.budget, _u: Date.now() } };
-  var r = await fetch(state.cloud.url.replace(/\/$/,'') + '/rest/v1/wedding_state', {
-    method: 'POST',
-    headers: {
-      'apikey': state.cloud.key, 'Authorization': 'Bearer ' + state.cloud.key,
-      'Content-Type': 'application/json',
-      'Prefer': 'resolution=merge-duplicates,return=minimal'
-    },
-    body: JSON.stringify(payload)
+  if(!state.gh.token) throw new Error('未设置令牌，当前为只读模式');
+  var sha = null;
+  try{
+    var g = await fetch(ghUrl(), { headers: ghHeaders() });
+    if(g.ok){ var j = await g.json(); sha = j.sha; }
+  }catch(e){}
+  var payload = { tasks: state.tasks, favs: state.favs, budget: state.budget, updatedAt: Date.now() };
+  var body = { message: 'sync ' + new Date().toLocaleString('zh-CN'), content: ghB64Enc(JSON.stringify(payload)) };
+  if(sha) body.sha = sha;
+  var r = await fetch(ghUrl(), {
+    method: 'PUT',
+    headers: ghHeaders({'Content-Type':'application/json'}),
+    body: JSON.stringify(body)
   });
-  if(!r.ok) throw new Error('云端写入失败：HTTP ' + r.status);
+  if(r.status === 401 || r.status === 403) throw new Error('HTTP ' + r.status + ' 令牌无效');
+  if(!r.ok) throw new Error('HTTP ' + r.status);
   state.cloud.lastSync = Date.now();
   state.cloud.status = 'online';
   saveCloudConfig();
@@ -1194,7 +1216,8 @@ function mergeRemote(remote){
         priority: a.priority || b.priority,
         done: !!(a.done || b.done),
         note: (b.note && b.note.length > (a.note||'').length) ? b.note : (a.note || b.note || ''),
-        amount: Math.max(Number(a.amount)||0, Number(b.amount)||0)
+        amount: Math.max(Number(a.amount)||0, Number(b.amount)||0),
+        dueTime: a.dueTime || b.dueTime || ''
       };
     }
   });
@@ -1217,17 +1240,30 @@ async function pollOnce(){
   if(!state.cloud.enabled) return;
   try{
     var remote = await cloudGet();
-    if(!remote){ await cloudPush(); return; }
-    var ru = remote.updated_at ? new Date(remote.updated_at).getTime() : 0;
+    if(!remote){
+      if(state.gh.token) await cloudPush();
+      return;
+    }
+    var rv = remote.value || {};
+    var ru = Number(rv.updatedAt) || 0;
     if(ru > (state.cloud.lastSync || 0) + 2000){
+      var before = JSON.stringify({t: state.tasks, f: state.favs, b: state.budget});
       if(mergeRemote(remote)){
-        save();
-        state.cloud.lastSync = Date.now();
-        state.cloud.status = 'online';
-        saveCloudConfig();
-        renderAll();
-        renderCloudStatus();
-        toast('已从云端拉取最新数据');
+        var after = JSON.stringify({t: state.tasks, f: state.favs, b: state.budget});
+        if(before !== after){
+          state.cloud.lastSync = Date.now();
+          state.cloud.status = 'online';
+          saveCloudConfig();
+          save();
+          renderAll();
+          renderCloudStatus();
+          toast('已从云端拉取最新数据');
+        } else {
+          state.cloud.lastSync = Math.max(state.cloud.lastSync || 0, ru);
+          state.cloud.status = 'online';
+          saveCloudConfig();
+          renderCloudStatus();
+        }
       }
     } else {
       state.cloud.status = 'online';
@@ -1249,16 +1285,17 @@ function setCloudMsg(text){ var m = $id('cloudMsg'); if(m) m.textContent = text;
 function cloudErrText(e){
   var m = String((e && e.message) || '');
   if(!m || m.indexOf('Failed to fetch') >= 0 || m.indexOf('NetworkError') >= 0 || m.indexOf('Load failed') >= 0){
-    return '连不上云端：网络不通或 Supabase 项目已暂停';
+    return '连不上 api.github.com（网络问题）';
   }
-  if(m.indexOf('HTTP 401') >= 0 || m.indexOf('HTTP 403') >= 0) return '云端密钥无效（' + m + '）';
-  if(m.indexOf('HTTP 404') >= 0) return '云端数据表不存在（' + m + '）';
+  if(m.indexOf('HTTP 401') >= 0 || m.indexOf('HTTP 403') >= 0) return '令牌无效或已过期，请重新粘贴';
+  if(m.indexOf('HTTP 404') >= 0) return '仓库里还没有 data.json';
+  if(m.indexOf('只读') >= 0) return '未设置令牌，改动只存在本机';
   return m;
 }
 
 /* ---- 管理码校验 ---- */
 function requireAdmin(ok, msg){
-  if(!state.adminHash){ toast('请先在「云同步」中设置管理密码'); openCloudMask(); return; }
+  if(!state.adminHash){ toast('请先在「数据同步」中设置管理密码'); openCloudMask(); return; }
   adminCallback = ok;
   $id('adminMsg').textContent = msg || '该操作仅主账号可执行';
   $id('adminInput').value = '';
@@ -1281,8 +1318,7 @@ async function tryAdmin(){
   }
 }
 function openCloudMask(){
-  $id('cloudUrl').value = state.cloud.url || '';
-  $id('cloudKey').value = state.cloud.key || '';
+  $id('cloudKey').value = state.gh.token || '';
   $id('adminPwd').value = '';
   $id('adminPwd2').value = '';
   var p2 = $id('adminPwd2');
@@ -1293,62 +1329,63 @@ function openCloudMask(){
     p2.classList.remove('hidden');
     $id('adminPwd').placeholder = '管理密码（≥6 位）';
   }
-  setCloudMsg(state.cloud.enabled ? '已连接到云端' : '未连接');
+  setCloudMsg(state.gh.token ? '已连接 · 可读可写' : '未设置令牌 · 只读模式');
+  $id('cloudShareBtn').classList.toggle('hidden', !state.gh.token);
   $id('cloudMask').classList.remove('hidden');
 }
 async function cloudTest(){
-  var url = $id('cloudUrl').value.trim();
   var key = $id('cloudKey').value.trim();
-  if(!url || !key){ setCloudMsg('请先填写 URL 和 key'); return; }
+  if(!key){ setCloudMsg('请先填写令牌'); return; }
   setCloudMsg('测试连接中…');
-  var oldUrl = state.cloud.url, oldKey = state.cloud.key;
-  state.cloud.url = url; state.cloud.key = key;
+  var oldTok = state.gh.token;
+  state.gh.token = key;
   try{
     var remote = await cloudGet();
     setCloudMsg('连接成功！' + (remote ? '云端已有 ' + (remote.value && remote.value.tasks ? remote.value.tasks.length : 0) + ' 条数据' : '云端为空'));
+    state.gh.token = key;
+    saveCloudConfig();
   }catch(e){
-    setCloudMsg('连接失败：' + (e.message || '请检查 URL 和 key'));
-    state.cloud.url = oldUrl; state.cloud.key = oldKey;
+    setCloudMsg('连接失败：' + (e.message || '请检查令牌'));
+    state.gh.token = oldTok;
   }
 }
 async function cloudSaveConnect(){
-  var url = $id('cloudUrl').value.trim();
   var key = $id('cloudKey').value.trim();
   var pwd = $id('adminPwd').value;
   var pwd2 = $id('adminPwd2').value;
-  if(!url || !key){ setCloudMsg('请填写 URL 和 key'); return; }
-  if(!state.adminHash && (!pwd || pwd.length < 6)){ setCloudMsg('请设置至少 6 位管理密码'); return; }
-  if(pwd && !state.adminHash && pwd !== pwd2){ setCloudMsg('两次密码不一致'); return; }
-  if(pwd && pwd.length > 0 && pwd.length < 6){ setCloudMsg('管理密码至少 6 位'); return; }
-  state.cloud.url = url; state.cloud.key = key;
+  if(state.adminHash && pwd && pwd.length > 0 && pwd.length < 6){ setCloudMsg('管理密码至少 6 位'); return; }
   setCloudMsg('正在连接…');
+  if(key) state.gh.token = key;
   try{
     var remote = await cloudGet();
     if(remote){ mergeRemote(remote); }
     if(pwd){ state.adminHash = await sha256Hex(pwd + ADMIN_SALT); }
     state.cloud.enabled = true;
-    await cloudPush();
     save(); saveCloudConfig();
     renderAll();
+    if(state.gh.token){
+      try{ await cloudPush(); }catch(e){}
+    }
     startPolling();
-    setCloudMsg('连接成功！已开始同步');
-    toast('云端已连接，已自动同步当前数据');
-    setTimeout(function(){ $id('cloudMask').classList.add('hidden'); }, 1200);
+    setCloudMsg(state.gh.token ? '连接成功！已开始双向同步' : '已进入只读模式（能看到最新数据，保存修改需填令牌）');
+    toast(state.gh.token ? '同步已开启' : '只读模式：可查看最新数据');
+    $id('cloudShareBtn').classList.toggle('hidden', !state.gh.token);
+    renderCloudStatus();
+    setTimeout(function(){ $id('cloudMask').classList.add('hidden'); }, 1500);
   }catch(e){
     setCloudMsg('连接失败：' + (e.message || ''));
-    state.cloud.enabled = false;
     renderCloudStatus();
   }
 }
 function cloudDisconnect(){
   state.cloud.enabled = false;
-  state.cloud.url = ''; state.cloud.key = '';
+  state.gh.token = '';
   state.cloud.status = 'offline';
   state.cloud.lastSync = 0;
   stopPolling();
   saveCloudConfig();
   renderCloudStatus();
-  toast('已断开云端，本地数据保留');
+  toast('已断开同步，本地数据保留');
   $id('cloudMask').classList.add('hidden');
 }
 
@@ -1357,6 +1394,16 @@ $id('cloudCancel').addEventListener('click', function(){ $id('cloudMask').classL
 $id('cloudTestBtn').addEventListener('click', cloudTest);
 $id('cloudSaveBtn').addEventListener('click', cloudSaveConnect);
 $id('cloudDisconnectBtn').addEventListener('click', cloudDisconnect);
+$id('cloudShareBtn').addEventListener('click', function(){
+  if(!state.gh.token){ toast('请先填入令牌'); return; }
+  var link = location.origin + location.pathname + '?gh=' + encodeURIComponent(state.gh.token);
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(link).then(function(){ toast('链接已复制，发给对象打开即可自动配好'); })
+      .catch(function(){ prompt('复制这个链接发给对象：', link); });
+  } else {
+    prompt('复制这个链接发给对象：', link);
+  }
+});
 $id('adminCancel').addEventListener('click', function(){ adminCallback = null; $id('adminMask').classList.add('hidden'); $id('adminInput').value = ''; });
 $id('adminOk').addEventListener('click', tryAdmin);
 $id('adminInput').addEventListener('keydown', function(e){ if(e.key === 'Enter') tryAdmin(); });
@@ -1477,8 +1524,7 @@ $id('renameMask').addEventListener('click', function(e){ if(e.target === $id('re
 load();
 renderAll();
 loadBg();
-if(state.cloud.enabled){ startPolling(); }
-if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(function(){}); }
+if(state.cloud.enabled){ startPolling(); }if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(function(){}); }
 })();
 </script>
 </body>
