@@ -1346,7 +1346,7 @@ async function cloudTest(){
     state.gh.token = key;
     saveCloudConfig();
   }catch(e){
-    setCloudMsg('连接失败：' + (e.message || '请检查令牌'));
+    setCloudMsg('连接失败：' + (e.message || '请检查令牌') + '（你填的令牌长度 ' + key.length + ' 位，正确应为 40 位）');
     state.gh.token = oldTok;
   }
 }
